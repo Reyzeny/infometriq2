@@ -1,0 +1,33 @@
+.label {
+  border-radius: 20px;
+  background: $light-bg;
+  color: $gray-2;
+  display: inline-block;
+  font-size: 1.4rem;
+  /*height: 2.2rem;*/
+  line-height: 2.2rem;
+  padding: 2px 10px 2px 10px;
+  position: relative;
+  margin: 0 10px 10px 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+
+
+  &--brand {
+    /*background: $brand-color--3;*/
+    color: #FFF;
+  }
+  &--success {
+    background: #D2F0CD;
+    color: #173615;
+    /*color: #5B7957;*/
+  }
+  &--danger {
+    background: #FFE0E0;
+    color: #722727;
+  }
+  &--warning {
+    background: #F9EDC7;
+    color: #46382C;
+  }
+}

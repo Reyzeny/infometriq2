@@ -1,0 +1,77 @@
+/*@import url('https://fonts.googleapis.com/css?family=Lato:900');*/
+@font-face {
+    font-family: 'Circular';
+    src: url('../fonts/circular/CircularAir-Bold.woff2') format('woff2'),
+        url('../fonts/circular/CircularAir-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Circular';
+    src: url('../fonts/circular/CircularAir-Book.woff2') format('woff2'),
+        url('../fonts/circular/CircularAir-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Circular';
+    src: url('../fonts/circular/CircularAir-Light.woff2') format('woff2'),
+        url('../fonts/circular/CircularAir-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Circular TT';
+    src: local('CircularTT-Black'),
+        url('../fonts/circular/CircularTT-Black.woff2') format('woff2'),
+        url('../fonts/circular/CircularTT-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesans/SourceSansPro-Bold.woff2') format('woff2'),
+        url('../fonts/sourcesans/SourceSansPro-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('../fonts/sourcesans/SourceSansPro-Black.woff2') format('woff2'),
+        url('../fonts/sourcesans/SourceSansPro-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* Nunito Sans */
+@font-face {
+    font-family: 'Nunito Sans';
+    src: local('Nunito Sans Light'), local('NunitoSans-Light'),
+        url('../fonts/nunitosans/NunitoSans-Light.woff2') format('woff2'),
+        url('../fonts/nunitosans/NunitoSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nunito Sans';
+    src: local('Nunito Sans Bold'), local('NunitoSans-Bold'),
+        url('../fonts/nunitosans/NunitoSans-Bold.woff2') format('woff2'),
+        url('../fonts/nunitosans/NunitoSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nunito Sans';
+    src: local('Nunito Sans Regular'), local('NunitoSans-Regular'),
+        url('../fonts/nunitosans/NunitoSans-Regular.woff2') format('woff2'),
+        url('../fonts/nunitosans/NunitoSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

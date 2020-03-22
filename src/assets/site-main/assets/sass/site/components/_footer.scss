@@ -1,0 +1,38 @@
+.footer {
+    /*background-color: #000E24;*/
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    &.mini {
+        padding-top: 10px;
+    }
+    hr {
+        border-color: #0F2448;
+    }
+
+    .heading {
+        color: #CCC;
+    }
+
+    .nav__menu {
+        color: #AAA;
+    }
+
+    &__nav {
+        &__item {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+            a {
+                display: inline-block;
+                border-bottom: 2px solid transparent;
+                color: inherit;
+
+                &:hover {
+                    border-bottom-color: #DDD;
+                }
+            }
+        }
+    }
+}

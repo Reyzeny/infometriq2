@@ -1,0 +1,107 @@
+.helper--no-box-shadow {
+    box-shadow: none !important;
+}
+.helper--no-border-radius {
+    border-radius: 0 !important;
+}
+.helper--no-opacity {
+    opacity: 1 !important;
+}
+.helper--has-border-top {
+    border-top: solid 2px $alt;
+}
+.helper--round {
+    border-radius: 50%;
+}
+.svg-fill--grey {
+    fill: #DDD;
+}
+.svg-fill--light {
+    fill: #EEE;
+}
+.svg-plain-grey {
+    fill: #CCC;
+    stroke: #CCC;
+}
+.svg-plain-dark {
+    fill: #555;
+    stroke: #555;
+}
+.svg-plain-brand {
+    fill: $brand-color;
+    stroke: $brand-color;
+}
+.svg-plain-primary {
+    fill: $primary-color;
+    stroke: $primary-color;
+}
+.svg-stroke-brand {
+    stroke: $brand-color;
+}
+.svg-stroke-primary {
+    stroke: $primary-color;
+}
+.common-section {
+    padding-top: $section-padding;
+    padding-bottom: $section-padding;
+
+    &--sm {
+        padding-top: $section-padding-sm;
+        padding-bottom: $section-padding-sm;
+    }
+
+    &--lg {
+        padding-top: $section-padding-lg;
+        padding-bottom: $section-padding-lg;
+    }
+}
+.helper--flex-center {
+    display: -webkit-box!important;
+    display: -webkit-flex!important;
+    display: -ms-flexbox!important;
+    display: flex!important;
+    -webkit-box-align: center!important;
+    -webkit-align-items: center!important;
+    -ms-flex-align: center!important;
+    align-items: center!important;
+}
+.helper--flex-0 {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+.avatar {
+    display: block;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: ellipsis;
+    line-height: normal;
+    position: relative;
+}
+.avatar-image {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+    background-color: #EEE;
+}
+.helper--size-36x36 {
+    width: 36px!important;
+    height: 36px!important;
+}
+.post-author-container {
+    font-size: 16px;
+    line-height: 1.4;
+    padding-left: 10px;
+    text-rendering: auto;
+}
+a, button, input {
+    -webkit-tap-highlight-color: transparent;
+}
+.display-inline-block {
+    display: inline-block;
+}
+.basic-font {
+    font-family: 'Arial' !important;
+}
