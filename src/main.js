@@ -16,6 +16,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Vuesax from 'vuesax'
 
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
+import axiosInstance from './network'
+
+// Vue.use(axiosInstance);
 
 // Global registration
 Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)
@@ -38,6 +41,8 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  axiosInstance,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+
 })

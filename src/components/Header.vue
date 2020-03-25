@@ -24,8 +24,8 @@
                                         </ul>
                                     </a>
                                 </li>
-                                <li class="nav__item nav__button"><a href="login.php"><i class="icon icon-user nav__icon"></i>Log in</a></li>
-                                <li class="nav__item nav__button nav__button--brand"><a href="signup.php" class=""><span>Get started</span></a></li>
+                                <li class="nav__item nav__button"><router-link class="login" to="/login"><i class="icon icon-user nav__icon"></i>Log in</router-link></li>
+                                <li class="nav__item nav__button nav__button--brand"><router-link class="signup" to="/signup"><span>Get started</span></router-link></li>
                             </ul>
                         </nav>
                     </div>
@@ -87,8 +87,17 @@ export default {
 }
 </script>
 
+
+
 <style>
+
 .altbg{
     background-color: #f5f5f5 !important;
+}
+.login {
+    text-decoration: none !important;
+}
+.signup {
+    text-decoration: none !important;
 }
 </style>

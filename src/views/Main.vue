@@ -12,18 +12,17 @@
                                     <h1 class="text-brand">InfoMetriQ</h1>
                                 </div>
                                 <div class="search-container__search">
-                                    <div class="search-container__input">
-                                        <!-- <input   type="search" class="input-custom input-custom--lg input-custom--search-elevated" placeholder="Search here ..."> -->
-                                        <!-- <vue-bootstrap-typeahead > -->
-                                            <vue-bootstrap-typeahead
-                                                class="ht "
-                                                v-model="query"
-                                                :data="users"
-                                                :serializer="item => item.display"
-                                                @hit="selectedUser($event)"
-                                                placeholder="Search here ..."
-                                            />
-                                    </div>
+                                    
+                                    <vue-bootstrap-typeahead
+                                        ref="searchbar"
+                                        class="ht "
+                                        v-model="query"
+                                        :data="users"
+                                        :serializer="item => item.display"
+                                        @hit="selectedUser($event)"
+                                        placeholder="Search here ..."
+                                    />
+
                                 </div>
                                 <div class="search-container__meta">
                                     <ul class="search-meta-ul list-inline">
@@ -115,6 +114,12 @@ export default {
         Header
     },
     name : 'MainPage',
+    mounted() {
+        // this.$refs.searchbar.addEventListener('click', (event)=>{
+        //     console.log("you pressed a keyup")
+        // });
+        console.log("serach bar is ", this.$refs.searchbar)
+    },
     data() {
         return {
             active:false,
@@ -138,14 +143,19 @@ export default {
 
     methods: {
         selectedUser(event){
-            console.log(event);         
+            console.log(event);
+            console.log(event.display);
+            this.$router.push({ path: 'search', query: { search_query: event.display } })         
+        },
+        dd() {
+            console.log("hello there");
         }
     },
   
 }
 </script>
 
-<style >
+<style>
 .main-header__logo img {
     height: 40px;
 }
@@ -155,16 +165,73 @@ export default {
 }
 .form-control{
     background-color: #FFFFFF !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08) !important;
-  border-radius: 4px !important;
-  border-color: #E3E6E6 !important;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path fill='%23000000' d='M13.22 14.63a8 8 0 1 1 1.41-1.41l4.29 4.29a1 1 0 1 1-1.41 1.41l-4.29-4.29zm-.66-2.07a6 6 0 1 0-8.49-8.49 6 6 0 0 0 8.49 8.49z'></path></svg>") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 18px center !important;
-  background-size: 16px 16px !important;
-  padding-left: 2rem !important;
-  font-weight: 600 !important;
-  color: #000 !important;
-  height: 4.8rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08) !important;
+    border-radius: 4px !important;
+    border-color: #E3E6E6 !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path fill='%23000000' d='M13.22 14.63a8 8 0 1 1 1.41-1.41l4.29 4.29a1 1 0 1 1-1.41 1.41l-4.29-4.29zm-.66-2.07a6 6 0 1 0-8.49-8.49 6 6 0 0 0 8.49 8.49z'></path></svg>") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 18px center !important;
+    background-size: 16px 16px !important;
+    padding-left: 2rem !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+    height: 4.8rem;
 }
+
+/* .search-container__search {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+}
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+input[type="search"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.input-custom--search {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path fill='%23000000' d='M13.22 14.63a8 8 0 1 1 1.41-1.41l4.29 4.29a1 1 0 1 1-1.41 1.41l-4.29-4.29zm-.66-2.07a6 6 0 1 0-8.49-8.49 6 6 0 0 0 8.49 8.49z'></path></svg>");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 16px 16px;
+  padding-left: 2.3em;
+  border-radius: 30px;
+}
+.input-custom--search-elevated {
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  border-color: #E3E6E6;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path fill='%23000000' d='M13.22 14.63a8 8 0 1 1 1.41-1.41l4.29 4.29a1 1 0 1 1-1.41 1.41l-4.29-4.29zm-.66-2.07a6 6 0 1 0-8.49-8.49 6 6 0 0 0 8.49 8.49z'></path></svg>");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 16px 16px;
+  padding-left: 2rem;
+  font-weight: 600;
+  color: #000;
+}
+.input-custom--search-elevated::placeholder {
+  color: inherit;
+  opacity: .2;
+}
+.input-custom--search-elevated:focus {
+  border-color: #DDD;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.16);
+}
+.landing-section--search {
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+} */
 </style>
+

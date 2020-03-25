@@ -14,5 +14,4 @@ export default {
 <style>
 @import 'assets/site-main/assets/css/main.css';
 @import 'assets/site-main/assets/css/icons.css';
-
 </style>
