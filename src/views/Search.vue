@@ -109,6 +109,9 @@ export default {
 </script>
 
 <style scoped>
+@import '../assets/site-main/assets/css/main.css';
+@import '../assets/site-main/assets/css/icons.css';
+
 .search-result {
     margin-top: 2%;
 }

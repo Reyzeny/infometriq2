@@ -16,7 +16,7 @@
                         
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input v-model="password" type="password" class="form-control" name="password" placeholder="Password"/>
+                            <input v-model="password" type="password" class="form-control" name="password" placeholder="Enter your password"/>
                             <div v-if="!password" class="error">{{password_error}}</div>
                         </div>
                         <div v-if="login_error" class="error text-center">{{login_error_message}}</div>
@@ -79,8 +79,9 @@ export default {
                 this.login_active = false;
                 let userData = {
                     auth_token: response.data.data.auth_token,
+                    username: response.data.data.username,
                 };
-                localStorage.setItem("user_data", userData);
+                localStorage.setItem("user_data", JSON.stringify(userData) );
                 this.$router.push(`/${userData.username}`);
             }).catch(error=> {
                 this.login_active = false;
@@ -116,6 +117,7 @@ export default {
 input {
     background-image: none !important;
     border: none;
+    font-size: 1.4rem !important;
 }
 .card {
     margin: 5%;

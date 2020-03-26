@@ -125,15 +125,16 @@ section {
 }
 
 .profile-content .fullname {
-    font-size: 2rem;
+    font-size: 2rem !important;
     color: black;
 }
 .occupation {
     margin-top: 4%;
-    font-size: 1.9rem;
+    font-size: 1.9rem !important;
     font-weight: 500;
 }
 .social-media {
+    margin-top: 2%;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;

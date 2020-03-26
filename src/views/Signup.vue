@@ -161,6 +161,7 @@ export default {
 input, select {
     background-image: none !important;
     border: none;
+    font-size: 1.4rem !important;
 }
 .alert {
     margin: 5%;

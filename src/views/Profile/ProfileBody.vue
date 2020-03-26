@@ -84,7 +84,8 @@ export default {
     justify-content: space-between;
 }
 .profile-title h3, .review-title h3 {
-    font-size: 2rem;
+    margin-top: 2%;
+    font-size: 1.8rem;
     color: #6D8AC7;
     font-weight: 500 !important;
 }

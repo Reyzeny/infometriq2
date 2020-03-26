@@ -24,8 +24,9 @@
                                         </ul>
                                     </a>
                                 </li>
-                                <li class="nav__item nav__button"><router-link class="login" to="/login"><i class="icon icon-user nav__icon"></i>Log in</router-link></li>
-                                <li class="nav__item nav__button nav__button--brand"><router-link class="signup" to="/signup"><span>Get started</span></router-link></li>
+                                <li v-if="!isLoggedIn" class="nav__item nav__button"><router-link class="login" to="/login"><i class="icon icon-user nav__icon"></i>Log In</router-link></li>
+                                <li v-if="!isLoggedIn" class="nav__item nav__button nav__button--brand"><router-link class="signup" to="/signup"><span>Get started</span></router-link></li>
+                                <li v-if="isLoggedIn" class="nav__item nav__button nav__button--brand"><a class="logout" @click="logout"><span>Logout</span></a></li>
                             </ul>
                         </nav>
                     </div>
@@ -39,15 +40,15 @@
                 <div class="row">
                     <div class="header-mobile__col col-xs-6">
                         <h1 class="m-t-0 m-b-0">
-                            <a class="header-mobile__logo" href="index.php">
-                                <img src="http://info.test/site-main/assets/images/logo.png" alt="InfoMetriQ">
-                            </a>
+                            <router-link class="header-mobile__logo" to="/">
+                                <img src="../assets/site-main/assets/images/logo.png" alt="InfoMetriQ">
+                            </router-link>
                         </h1>
                     </div>
                     <div class="header-mobile__col col-xs-6 text-right">
                         <ul class="nav__menu">
                             <li class="nav__item">
-                                <a role="button" href="http://info.test/signin" class="header-mobile__menu-button text-bold">Login</a>
+                                <router-link v-if="!isLoggedIn" role="button" to="/login" class="header-mobile__menu-button text-bold">Login</router-link>
                             </li>
                             <li class="nav__item">
                                 <a role="button" class="header-mobile__menu-button menu-btn"  @click="active=!active">
@@ -64,8 +65,9 @@
     <vs-sidebar parent="body" default-index="1"  color="primary" class="sidebarx" spacer v-model="active">
       <ul class="nav__menu nav__menu--vertical">
         <li class="nav__item nav__item--header"><span>Menu</span></li>
-        <li class="nav__item nav__button"><a href="login.php"><i class="icon icon-user nav__icon"></i>Log in</a></li>
-        <li class="nav__item nav__button nav__button--brand"><a href="signup.php" class=""><span>Get started</span></a></li>
+        <li v-if="!isLoggedIn" class="nav__item nav__button"><router-link to="/login"><i class="icon icon-user nav__icon"></i>Log in</router-link></li>
+        <li v-if="!isLoggedIn" class="nav__item nav__button nav__button--brand"><router-link to="/signup" class=""><span>Get started</span></router-link></li>
+        <li v-if="isLoggedIn" class="nav__item nav__button nav__button--brand"><a @click="logout" class=""><span>Logout</span></a></li>
         <div class="divider"></div>
         <li class="nav__item nav__button"><a href=""><i class="icon icon-info nav__icon"></i>About</a></li>
         <li class="nav__item nav__button"><a href=""><i class="icon icon-award nav__icon"></i>Privacy policy</a></li>
@@ -79,9 +81,22 @@
 export default {
     name: "Header",
     props : ['headType'],
+    computed: {
+        isLoggedIn: function () {
+            let userData = JSON.parse(localStorage.getItem("user_data"));
+            return userData && userData.auth_token && userData.username;
+        }
+    },
     data() {
         return {
             active:false,
+        }
+    },
+    methods: {
+        logout() {
+            console.log("logout clicked");
+            localStorage.clear();
+            this.$router.push('/');
         }
     }
 }
@@ -90,7 +105,6 @@ export default {
 
 
 <style>
-
 .altbg{
     background-color: #f5f5f5 !important;
 }

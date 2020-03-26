@@ -15,7 +15,7 @@
                                     
                                     <vue-bootstrap-typeahead
                                         ref="searchbar"
-                                        class="ht "
+                                        class="ht"
                                         v-model="query"
                                         :data="users"
                                         :serializer="item => item.display"
@@ -27,7 +27,7 @@
                                 <div class="search-container__meta">
                                     <ul class="search-meta-ul list-inline">
                                         <li class="search-meta-ul__item search-meta-ul__item--desc">
-                                            <span class="meta-label"><span class="search-container__meta__icon"><img src="assets/images/icon-success.png" alt=""></span> Database of verified</span>
+                                            <span class="meta-label"><span class="search-container__meta__icon"><img src="../assets/site-main/assets/images/icon-success.png" alt=""></span> Database of verified</span>
                                         </li>
                                         <li class="search-meta-ul__item"><a href="">Companies</a></li>
                                         <li class="search-meta-ul__item"><a href="">Individuals</a></li>
@@ -51,7 +51,7 @@
                         <div class="landing-section--about__item">
                             <div class="flex">
                                 <div class="landing-section--about__icon">
-                                        <img src="http://info.test/site-main/assets/images/icon-business.png" alt="">
+                                        <img src="../assets/site-main/assets/images/icon-business.png" alt="">
                                 </div>
                                 <div>
                                     <h4>Verified Businesses</h4>
@@ -67,7 +67,7 @@
                         <div class="landing-section--about__item">
                             <div class="flex">
                                 <div class="landing-section--about__icon">
-                                    <img src="http://info.test/site-main/assets/images/icon-user-check.png" alt="">
+                                    <img src="../assets/site-main/assets/images/icon-user-check.png" alt="">
                                 </div>
                                 <div>
                                     <h4>Verified individuals</h4>
@@ -83,7 +83,7 @@
                         <div class="landing-section--about__item">
                             <div class="flex">
                                 <div class="landing-section--about__icon">
-                                    <img src="http://info.test/site-main/assets/images/icon-house.png" alt="">
+                                    <img src="../assets/site-main/assets/images/icon-house.png" alt="">
                                 </div>
                                 <div>
                                     <h4>Verified properties</h4>
@@ -109,9 +109,10 @@ import axios from 'axios'
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 const API_URL = 'http://calm-plains-58791.herokuapp.com/api/auto-complete-search?query=:query'
 export default {
-    extends: VueTypeahead,
+    // extends: VueTypeahead,
     components : {
-        Header
+        Header,
+        VueBootstrapTypeahead
     },
     name : 'MainPage',
     mounted() {
@@ -156,6 +157,9 @@ export default {
 </script>
 
 <style>
+/* @import '../assets/site-main/assets/css/main.css';
+@import '../assets/site-main/assets/css/icons.css'; */
+
 .main-header__logo img {
     height: 40px;
 }
@@ -177,61 +181,5 @@ export default {
     color: #000 !important;
     height: 4.8rem;
 }
-
-/* .search-container__search {
-    position: relative;
-    z-index: 2;
-    float: left;
-    width: 100%;
-    margin-bottom: 0;
-}
-input[type="search"] {
-  -webkit-appearance: textfield;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-}
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-input[type="search"] {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.input-custom--search {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path fill='%23000000' d='M13.22 14.63a8 8 0 1 1 1.41-1.41l4.29 4.29a1 1 0 1 1-1.41 1.41l-4.29-4.29zm-.66-2.07a6 6 0 1 0-8.49-8.49 6 6 0 0 0 8.49 8.49z'></path></svg>");
-  background-repeat: no-repeat;
-  background-position: 10px center;
-  background-size: 16px 16px;
-  padding-left: 2.3em;
-  border-radius: 30px;
-}
-.input-custom--search-elevated {
-  background-color: #FFFFFF;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
-  border-color: #E3E6E6;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path fill='%23000000' d='M13.22 14.63a8 8 0 1 1 1.41-1.41l4.29 4.29a1 1 0 1 1-1.41 1.41l-4.29-4.29zm-.66-2.07a6 6 0 1 0-8.49-8.49 6 6 0 0 0 8.49 8.49z'></path></svg>");
-  background-repeat: no-repeat;
-  background-position: right 18px center;
-  background-size: 16px 16px;
-  padding-left: 2rem;
-  font-weight: 600;
-  color: #000;
-}
-.input-custom--search-elevated::placeholder {
-  color: inherit;
-  opacity: .2;
-}
-.input-custom--search-elevated:focus {
-  border-color: #DDD;
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.16);
-}
-.landing-section--search {
-  padding-top: 10rem;
-  padding-bottom: 10rem;
-} */
 </style>
 

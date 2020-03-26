@@ -93,6 +93,11 @@ div .rating {
 @media screen and (max-width: 768px) {
 
     .profile-url {
+        margin-top: 5%;
+        margin-bottom: 5%;
+        width: 100%;
+    }
+    .audio-description {
         width: 100%;
     }
 }
