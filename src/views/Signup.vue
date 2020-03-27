@@ -208,6 +208,7 @@ form select {
     padding: 12px 0;
     color: #ffffff;
     font-size: 16px;
+    font-weight: 600;
     text-transform: uppercase;
     margin: 0 auto;
     display: table;

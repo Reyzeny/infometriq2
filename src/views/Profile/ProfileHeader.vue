@@ -110,8 +110,8 @@ section {
     font-size: 1.3rem;
 }
 .card img {
-    width: auto;
-    height: 70%;
+    width: 0 auto;
+    max-height: 70%;
     margin: 1%;
     border-color: #F6F6F6;
     border-radius: 0;

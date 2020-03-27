@@ -12,8 +12,6 @@ export default {
 </script>
 
 <style>
-/* @import 'assets/site-main/assets/css/main.css';
-@import 'assets/site-main/assets/css/icons.css'; */
 @import 'assets/site-main/assets/css/others.css';
 @import 'assets/site-main/assets/css/icons.css';
 </style>

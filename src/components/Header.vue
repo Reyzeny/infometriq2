@@ -51,7 +51,7 @@
                                 <router-link v-if="!isLoggedIn" role="button" to="/login" class="header-mobile__menu-button text-bold">Login</router-link>
                             </li>
                             <li class="nav__item">
-                                <a role="button" class="header-mobile__menu-button menu-btn"  @click="active=!active">
+                                <a role="button" class="header-mobile__menu-button menu-btn"  @click.stop="toggleSideBar">
                                     <font-awesome-icon :icon="['fas', 'bars']" />
                                 </a>
                                  <!-- <vs-button @click="active=!active">Open Sidebar</vs-button> -->
@@ -62,10 +62,11 @@
             </div>
         </div>
     </header>
-    <vs-sidebar parent="body" default-index="1"  color="primary" class="sidebarx" spacer v-model="active">
+    <vs-sidebar  v-model="active">
       <ul class="nav__menu nav__menu--vertical">
         <li class="nav__item nav__item--header"><span>Menu</span></li>
-        <li v-if="!isLoggedIn" class="nav__item nav__button"><router-link to="/login"><i class="icon icon-user nav__icon"></i>Log in</router-link></li>
+        
+        <li v-if="!isLoggedIn" class="nav__item nav__button"><router-link to="/login"> Log in</router-link></li>
         <li v-if="!isLoggedIn" class="nav__item nav__button nav__button--brand"><router-link to="/signup" class=""><span>Get started</span></router-link></li>
         <li v-if="isLoggedIn" class="nav__item nav__button nav__button--brand"><a @click="logout" class=""><span>Logout</span></a></li>
         <div class="divider"></div>
@@ -92,11 +93,25 @@ export default {
             active:false,
         }
     },
+    watch:{
+        active: function(){
+            console.log("status of active is ", this.active)
+        }
+    },
     methods: {
         logout() {
             console.log("logout clicked");
             localStorage.clear();
             this.$router.push('/');
+        },
+        showPage() {
+            toggleSideBar();
+        },
+        toggleSideBar() {
+            // console.log("in close side bar");
+            // console.log("active is ", this.active)
+            this.active = !this.active;
+            // console.log("active after click is ", this.active)
         }
     }
 }

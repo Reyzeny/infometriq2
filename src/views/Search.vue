@@ -37,7 +37,14 @@
                 <div class="wrap">
                     <div class="row">
                         <div class="col-lg-8 col-center">
-                            <div class="search-results">
+                            <div v-if="pageStatus=='loading'" class="text-center loading">
+                                <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div v-else-if="pageStatus=='noResult'" class="text-center no-result">
+                                Sorry, there are no results for your search
+                            </div>
+                            <div v-else-if="pageStatus=='showResult'" class="search-results">
                                 <div v-for="searchResult in searchResultList" :key="searchResult" class="search-result">
                                     <div class="search-result__avatar">
                                         <img src="../assets/site-main/assets/images/user-1.jpg" alt="">
@@ -87,23 +94,28 @@ export default {
     },
     data () {
         return {
+            pageStatus: 'noResult',
             search_query: '',
             searchResultList: []
         }
     },
     mounted() {
         this.search_query = this.$route.query.search_query;
-        axios.post(`/search-list?query=${this.search_query}`)
+        this.performSearch(this.search_query)
+    },
+    methods: {
+        performSearch(query) {
+            this.pageStatus='loading';
+            axios.post(`/search-list?query=${query}`)
             .then(response => {
-                console.log("response is ", response);
                 let searchResponse = response.data.data;
-                console.log("search response is ", searchResponse);
                 this.searchResultList = searchResponse.results;
-                console.log("search result list is ", this.searchResultList);
+                this.pageStatus='showResult';
             }).catch(error => {
-                console.log("error is ", error);
                 console.log("error response is ", error.response);
+                this.pageStatus='noResult';
             })
+        }
     }
 }
 </script>
@@ -112,7 +124,16 @@ export default {
 @import '../assets/site-main/assets/css/main.css';
 @import '../assets/site-main/assets/css/icons.css';
 
+.loading {
+    margin: 5%;
+}
+.no-result {
+    margin: 5%;
+    font-size: 2rem;
+    font-weight: 600;
+}
 .search-result {
     margin-top: 2%;
 }
+
 </style>

@@ -1,12 +1,16 @@
 <template>
     <section>
         <Header/>
-        <div v-if="usernameExists=='exists'">
+        <div v-if="usernameExists=='loading'" class="text-center loading">
+            <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div v-else-if="usernameExists=='exists'">
             <ProfileHeader :profiledata="dataObject"/>
             <ProfileSubHeader :profiledata="dataObject"/>
             <ProfileBody :profiledata="dataObject"/>
         </div>
-        <div v-if="usernameExists=='no'">
+        <div v-else-if="usernameExists=='no'">
             <ProfileUnavailable/>
         </div>
     </section>
@@ -35,6 +39,7 @@ export default {
     },
     mounted() {
         let username = this.$route.params.username;
+        this.usernameExists = 'loading';
         axios.post(`/get-user-profile?username=${username}`)
             .then(response => {
                 this.dataObject = response.data.data;
@@ -45,6 +50,13 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.loading {
+    margin: 5%;
+}
+</style>
+
 
 
 

@@ -35,8 +35,8 @@ export default {
     props: ['profiledata'],
     computed: {
         isMyProfile: function() {
-            let userData = localStorage.getItem("user");
-            return userData && userData.username==this.profiledata.username;
+            let userData = JSON.parse(localStorage.getItem("user_data"));
+            return userData && (userData.username==this.profiledata.username);
         }
     },
     data() {
