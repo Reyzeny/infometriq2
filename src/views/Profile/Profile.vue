@@ -22,6 +22,7 @@ import ProfileSubHeader from './ProfileSubHeader'
 import ProfileBody from './ProfileBody'
 import ProfileUnavailable from './ProfileUnavailable'
 import axios from './../../network'
+import {mapState, mapActions} from 'vuex'
 
 export default {
     components:{
@@ -31,6 +32,10 @@ export default {
         ProfileBody,
         ProfileUnavailable
     },
+    computed: {
+        ...mapState("user", ["refreshUserData"]),
+        
+    },
     data(){
         return{
             dataObject: '',
@@ -38,15 +43,30 @@ export default {
         }
     },
     mounted() {
-        let username = this.$route.params.username;
         this.usernameExists = 'loading';
-        axios.post(`/get-user-profile?username=${username}`)
-            .then(response => {
-                this.dataObject = response.data.data;
-                this.usernameExists = 'exists';
-            }).catch(error => {
-                this.usernameExists = 'no';
-            })
+        this.loadUserProfile();
+    },
+    watch: {
+        refreshUserData() {
+            if (this.refreshUserData){
+                this.loadUserProfile();
+                this.changeRefreshState(false);
+            }
+        }
+    },
+    methods: {
+        ...mapActions("user", ["changeRefreshState"]),
+        loadUserProfile() {
+            let username = this.$route.params.username;
+            axios.post(`/get-user-profile?username=${username}`)
+                .then(response => {
+                    this.dataObject = response.data.data;
+                    console.log(this.dataObject);
+                    this.usernameExists = 'exists';
+                }).catch(error => {
+                    this.usernameExists = 'no';
+                })
+        }
     }
 }
 </script>

@@ -14,9 +14,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Vuesax from 'vuesax'
-
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 import axiosInstance from './network'
+import VModal from 'vue-js-modal'
+import store from './store'
+ 
+Vue.use(VModal)
 
 // Vue.use(axiosInstance);
 
@@ -42,6 +45,7 @@ new Vue({
   el: '#app',
   router,
   axiosInstance,
+  store,
   components: { App },
   template: '<App/>',
 

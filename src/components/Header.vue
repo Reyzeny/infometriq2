@@ -24,6 +24,13 @@
                                         </ul>
                                     </a>
                                 </li>
+                                <li v-if="isLoggedIn" class="nav__item nav__item--has-dropdown">
+                                    <a href="">Account
+                                        <ul class="nav__dropdown">
+                                            <li class="nav__dropdown__item"><router-link :to="`/${getUsername}`">My Profile</router-link></li>
+                                        </ul>
+                                    </a>
+                                </li>
                                 <li v-if="!isLoggedIn" class="nav__item nav__button"><router-link class="login" to="/login"><i class="icon icon-user nav__icon"></i>Log In</router-link></li>
                                 <li v-if="!isLoggedIn" class="nav__item nav__button nav__button--brand"><router-link class="signup" to="/signup"><span>Get started</span></router-link></li>
                                 <li v-if="isLoggedIn" class="nav__item nav__button nav__button--brand"><a class="logout" @click="logout"><span>Logout</span></a></li>
@@ -68,6 +75,7 @@
         
         <li v-if="!isLoggedIn" class="nav__item nav__button"><router-link to="/login"> Log in</router-link></li>
         <li v-if="!isLoggedIn" class="nav__item nav__button nav__button--brand"><router-link to="/signup" class=""><span>Get started</span></router-link></li>
+        <li v-if="isLoggedIn" class="nav__item nav__button"><router-link :to="`/${getUsername}`"><i class="icon icon-info nav__icon"></i>My Profile</router-link></li>
         <li v-if="isLoggedIn" class="nav__item nav__button nav__button--brand"><a @click="logout" class=""><span>Logout</span></a></li>
         <div class="divider"></div>
         <li class="nav__item nav__button"><a href=""><i class="icon icon-info nav__icon"></i>About</a></li>
@@ -86,6 +94,10 @@ export default {
         isLoggedIn: function () {
             let userData = JSON.parse(localStorage.getItem("user_data"));
             return userData && userData.auth_token && userData.username;
+        },
+        getUsername: function() {
+            let userData = JSON.parse(localStorage.getItem("user_data"));
+            return userData.username;
         }
     },
     data() {

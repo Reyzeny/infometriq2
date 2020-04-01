@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let userData = localStorage.getItem("user_data");
+let userData = JSON.parse(localStorage.getItem("user_data"));
 
 let headerParams = {
     'Content-Type': 'application/json',
