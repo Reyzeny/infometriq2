@@ -3,13 +3,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="card profile-img text-center">
-                        <img src="../../assets/site-main/assets/images/user-1.jpg" class="card-img-top" alt="image_profile">
-                        <div class="card-body">
-                            <p class="profile-text">
-                                Quote:<br>    
-                                "There's nothing"                            
-                            </p>
+                    <div class="card">
+                        <div v-if="imageUploadStatus=='upload_error'" class="error">Error uploading image</div>
+                        <div class="profile-img">
+                            <img v-if="profiledata.profile_image" :src="profiledata.profile_image" class="card-img-top" alt="Profile Image">
+                            <img v-else src="../../assets/images/user_image_placeholder.svg" class="card-img-top" alt="Profile Image">
+                            <span v-if="imageUploadStatus=='uploading'" class="spinner-image spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+                            <span class="btn-file">
+                                <img class="edit-image" src="../../assets/images/photo-camera.svg"><input type="file" @change="imageSelected">
+                            </span>
+                        </div>
+                        <div class="card-body user-quote">
+                            <p>Quote:</p>
+                            <blockquote><span>&ldquo;</span>{{profiledata.quote}}<span>&rdquo;</span></blockquote>
                         </div>
                     </div>
                 </div>
@@ -62,7 +68,7 @@
 </template>
 
 <script>
-
+import axios from 'axios'
 export default {
     name: "ProfileHeader",
     props: ['profiledata'],
@@ -82,11 +88,15 @@ export default {
                 "Email": this.profiledata.email,
                 "Social":""
             }
+        },
+        user_image() {
+            return this.profiledata && this.profiledata.profile_image ? this.profiledata.profile_image : ""
         }
     },
     data () {
         return {
-            
+            profileImageSelected: '',
+            imageUploadStatus: ''
         }
     },
     methods: {
@@ -95,8 +105,50 @@ export default {
             console.log(typeof(date_string))
             if (!date_string) return;
             let date_split = date_string.split('-');
-            let newDate = new Date(date_split[0], date_split[1], date_split[2]);
+            let newDate = new Date(date_split[0], date_split[1]-1, date_split[2]);
             return newDate.toDateString();
+        },
+        imageSelected(e) {
+            console.log("image selected")
+            let files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return
+            this.createImage(files[0])
+        },
+        createImage(file) {
+            console.log("created image file")
+            let reader = new FileReader()
+            let vm = this;
+            reader.onload = (e)=>{
+                vm.profileImageSelected = e.target.result;
+                this.uploadMyImage(vm.profileImageSelected)
+            }
+            reader.readAsDataURL(file)
+        },
+        uploadMyImage(image) {
+            console.log("upload immage")
+            let userData = JSON.parse(localStorage.getItem("user_data"));
+            let headerParams = {
+                "Authorization":`Bearer ${userData.auth_token}`,
+            }
+            let config =  {
+                headers: headerParams,
+            }
+            let myObject = {
+                image: image
+            }
+            this.imageUploadStatus = 'uploading';
+            axios.post('http://calm-plains-58791.herokuapp.com/api/upload-image', myObject, config)
+                .then(response=>{
+                    console.log("response is ", response.data.data.profile_image)
+                    this.imageUploadStatus = 'uploaded'
+                    this.profiledata.profile_image = ""
+                    this.profiledata.profile_image = response.data.data.profile_image
+                    console.log("profile data profile image is ", this.profiledata.profile_image)
+            }).catch(error=>{
+                this.imageUploadStatus = 'upload_error'
+                console.log("error is ", error)
+                console.log("error response is ", error.response)
+            })
         },
     }
 }
@@ -113,20 +165,18 @@ section {
     margin: 5%;
 }
 .profile-img {
+    border-color: #E1E1E1;
+}
+.user-quote {
     background-color: #F6F6F6;
     border-color: #E1E1E1;
-    /* margin-left: 10%; */
-    /* margin-right: 5%; */
 }
-.profile-text {
+.user-quote p{
     font-size: 1.3rem;
 }
-.card img {
-    width: 0 auto;
-    max-height: 70%;
-    margin: 1%;
-    border-color: #F6F6F6;
-    border-radius: 0;
+.user-quote blockquote{
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 .row .data {
     font-weight: 600;
@@ -209,6 +259,61 @@ section {
     .row .data {
         margin: 2% 0;
     }
+}
+
+
+
+
+/* .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;   
+    cursor: inherit;
+    display: block;
+} */
+.btn-file {
+    width: 3rem !important;
+    height: 3rem !important;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 1%;
+    margin-top: 1%;
+}
+.btn-file .edit-image {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    cursor: pointer; 
+}
+.spinner-image {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+}
+.error {
+    color: red;
+    font-size: 1.3rem;
 }
 </style>
 

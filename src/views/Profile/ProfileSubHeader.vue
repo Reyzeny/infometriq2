@@ -1,7 +1,7 @@
 <template>
     <section class="container">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-10 sub-header-section">
                 <modal name="edit-profile-modal" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true" @before-open="onBeforeModelOpen">
                     <div class="edit-profile-layout">
                         <div class="close-layout"><button @click="closeEditProfile">&times;</button></div>
@@ -9,34 +9,48 @@
                         <div v-if="profile_page==1" class="row">
                             <div class="col-md-6">
                                 <div>
-                                    <label>First name</label>
+                                    <label for="firstname">First name</label>
                                     <input type="text" class="form-control" name="firstname" placeholder="Enter your first name" v-model="firstname"/>
                                     <div v-if="!firstname" class="error">{{firstname_error}}</div>
                                 </div>
                                 <div>
-                                    <label>Last name</label>
+                                    <label for="lastname">Last name</label>
                                     <input type="text" class="form-control" name="lastname" placeholder="Enter your last name" v-model="lastname"/>
                                     <div v-if="!lastname" class="error">{{lastname_error}}</div>
+                                </div>
+                                <div>
+                                    <label for="website">Website</label>
+                                    <input type="text" class="form-control" name="website" placeholder="e.g http://www.johnsmith.com" v-model="website"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <label>Occupation</label>
+                                    <label for="occupation">Occupation</label>
                                     <input type="text" class="form-control" name="occupation" placeholder="Enter your occupation" v-model="occupation"/>
                                     <div v-if="!occupation" class="error">{{occupation_error}}</div>
                                 </div>
                                 <div>
-                                    <label>Date of birth</label>
-                                    <input type="date" class="form-control" placeholder="Enter your date of birth" v-model="dob"/>
+                                    <label for="date_of_birth">Date of birth</label>
+                                    <input id="date_of_birth" name="date_of_birth" type="date" class="form-control" placeholder="Enter your date of birth" v-model="dob"/>
+                                </div>
+                                <div>
+                                    <label for="phone">Phone number</label>
+                                    <input type="mobile" name="phone" class="form-control" placeholder="Enter your phone number" v-model="phone"/>
+                                    <div v-if="!phone" class="error">{{phone_error}}</div>
                                 </div>
                             </div>
                         </div>
                         <div v-else-if="profile_page==2" class="row">
                             <div class="col-md-6">
                                 <div>
-                                    <label for="state">State</label>
-                                    <input type="text" name="state" class="form-control" placeholder="Enter your state or city" v-model="state"/>
+                                    <label for="address">Address</label>
+                                    <input type="text" name="address" class="form-control" placeholder="e.g  12 JohnSmith street" v-model="address"/>
                                 </div>
+                                <div>
+                                    <label for="city">City</label>
+                                    <input type="text" name="city" class="form-control" placeholder="Enter your state or city" v-model="state"/>
+                                </div>
+                                
                                 <div>
                                     <label>Country</label>
                                     <input type="text" name="country" class="form-control" placeholder="Enter your country name" v-model="country"/>
@@ -44,13 +58,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <label>Phone number</label>
-                                    <input type="mobile" name="phone" class="form-control" placeholder="Enter your phone number" v-model="phone"/>
-                                    <div v-if="!phone" class="error">{{phone_error}}</div>
+                                    <label for="state">State</label>
+                                    <input type="text" name="state" class="form-control" placeholder="Enter your state or city" v-model="state"/>
                                 </div>
                                 <div>
                                     <label>Email</label>
                                     <input type="email" name="email" class="form-control" placeholder="Enter your email" v-model="email" disabled/>
+                                </div>
+                                <div>
+                                    <label>Quote</label>
+                                    <input type="text" name="quote" class="form-control" placeholder="Write your favorite quote" v-model="quote"/>
                                 </div>
                             </div>
                         </div>
@@ -73,6 +90,10 @@
                                 <div>
                                     <label>Instagram link</label>
                                     <input type="text" class="form-control" placeholder="e.g https://instagram.com/jason" v-model="instagram_url"/>
+                                </div>
+                                <div>
+                                    <label>Youtube link</label>
+                                    <input type="text" class="form-control" placeholder="e.g https://youtube.com/jason" v-model="youtube_url"/>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +154,7 @@ export default {
         },
         isMyProfile() {
             let userData = JSON.parse(localStorage.getItem("user_data"));
-            return this.isLoggedIn && (this.profiledata.username==userData.username);
+            return userData && (this.profiledata.username==userData.username);
         },
         ...mapState("user", ["refreshUserData"]),
         ...mapGetters("user", ["isLoggedIn"]),
@@ -151,11 +172,17 @@ export default {
             dob: this.profiledata.birthday,
             phone: this.profiledata.phone,
             email: this.profiledata.email,
+            address: this.profiledata.address,
+            city: this.profiledata.city,
             state: this.profiledata.state,
+            country: this.profiledata.country,
             facebook_url: this.profiledata.facebook,
             twitter_url: this.profiledata.twitter,
             linkedin_url: this.profiledata.linkedin,
             instagram_url: this.profiledata.instagram,
+            youtube_url: this.profiledata.youtube,
+            quote: this.quote,
+            website: this.website,
 
             save_active: false,
 
@@ -215,12 +242,24 @@ export default {
             if (!this.onDataValidated()) return;
             this.save_active=true;
             axios.post('/update-user',{
-                "firstname": this.firstname,
-                "lastname": this.lastname,
-                "phone": this.phone,
-                "occupation":this.occupation,
-                "email":this.profiledata.email,
-                "username":this.profiledata.username,
+                firstname: this.firstname,
+                lastname: this.lastname,
+                phone: this.phone,
+                occupation:this.occupation,
+                // "email":this.profiledata.email,
+                username:this.profiledata.username,
+                birthday: this.dob,
+                address: this.address,
+                city: this.city,
+                state:this.state,
+                country: this.country,
+                facebook: this.facebook_url,
+                twitter: this.twitter_url,
+                instagram: this.instagram_url,
+                linkedin: this.linkedin_url,
+                youtube: this.youtube,
+                quote: this.quote,
+                website: this.website
             }).then(response=> {
                 console.log("update user response is ", response);
                 console.log("refresh user data before is  ", this.refreshUserData)
@@ -249,23 +288,15 @@ export default {
         showPhoneError(errorDetails) {
             this.phone_error = errorDetails;
         },
-        /**
-        * When the location found
-        * @param {Object} addressData Data of the found location
-        * @param {Object} placeResultData PlaceResult object
-        * @param {String} id Input container ID
-        */
-        getStateData(addressData, placeResultData, id) {
-            // this.address = addressData;
-            console.log("address data is ", addressData)
-            console.log("placeresult data is ", placeResultData);
-            console.log("id is ", id);
-        }
     }
 }
 </script>
 
 <style scoped>
+.sub-header-section {
+    margin-left: 0;
+    margin-right: 0;
+}
 .menu span {
     margin-right: 1%;
     font-size: 1.4rem;
@@ -364,6 +395,10 @@ div .rating {
     }
     .audio-description {
         width: 100%;
+    }
+    .sub-header-section {
+        margin-left: 5%;
+        margin-right: 5%;
     }
 }
 

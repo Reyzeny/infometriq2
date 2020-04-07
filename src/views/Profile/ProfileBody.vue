@@ -1,10 +1,10 @@
 <template>
     <section class="container">
         <div class="row">
-            <div class="col-md-11">
+            <div class="col-md-10 profile-body-section">
                 <div class="card">
                     <div class="edit-icon-container"><img v-if="isMyProfile" @click="showAboutModal" class="edit-icon" src="../../assets/images/edit_icon.png"/></div>
-                    <p v-if="showReadMoreArrow" class="about about-short">{{profiledata.about}}</p>
+                    <p v-if="showReadMoreArrow" class="about about-short" v-html="profiledata.about"></p>
                     <p id="about-complete-content" class="about about-full collapse">{{profiledata.about}}</p>
                     <br>
                     <br>
@@ -31,7 +31,7 @@
                         <div class="degree">{{educationObject.certificate}}<span v-if="educationObject.grade">({{educationObject.grade}})</span></div>
                         <div v-if="educationObject.to" class="time">{{formatShortDate(educationObject.from)}} - {{formatShortDate(educationObject.to)}}</div>
                         <div v-else class="time">{{formatShortDate(educationObject.from)}} - Currently studying here</div>
-                        <div v-if="isMyProfile"><a class="edit-education" @click="showEducationModal(true, educationObject)">Edit</a> <a class="delete-education" @click="deleteEducationDetail(educationObject)">Delete</a></div>
+                        <div class="education-actions" v-if="isMyProfile"><a class="edit-education" @click="showEducationModal(true, educationObject)">Edit</a> <a class="delete-education" @click="deleteEducationDetail(educationObject)">Delete</a></div>
                     </div>
                     <modal name="edit-education-modal" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true">
                             <div class="edit-education-layout">
@@ -108,16 +108,16 @@
                         </modal>
                     </div>
                 </div>
-                <div class="card">
+                <!-- <div class="card">
                     <div class="review-title"><h3>Reviews</h3></div>
                     <div class="profile-review" v-for="reviewInfo in reviews" :key="reviewInfo">
                         <p><span class="reviewer-name">{{reviewInfo.name}}</span><span class="circle-dot"></span><span class="review-date">{{reviewInfo.date}}</span></p>
                         <p class="review-detail">Abiodun is a greate national diplomat with greate enthusiasm Abiodun is a greate national diplomat with greate enthusiasm Abiodun is a greate national diplomat with greate enthusiasm Abiodun is a greate national diplomat with greate enthusiasm</p>
                         <p><img class="rating-star" v-for="n in rating_number" :key="n" src="../../assets/images/star-blue.png"/><img class="rating-star" v-for="n in (5-rating_number)" :key="n" src="../../assets/images/star-blue.png"/></p>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
         </div>
     </section>
 </template>
@@ -250,14 +250,29 @@ export default {
             this.$modal.hide("edit-education-modal");
         },
         onSaveAbout() {
-
+            if (!this.about_content) return;
+            this.save_active=true;
+            axios.post('/update-user',{
+                about: this.about_content
+            }).then(response=> {
+                console.log("update user response is ", response);
+                console.log("refresh user data before is  ", this.refreshUserData)
+                this.save_active=false;
+                this.changeRefreshState(true);
+                console.log("refresh user data is now ", this.refreshUserData)
+                this.closeAboutModal();
+            }).catch(error => {
+                this.save_active=false;
+                console.log("update user error is ", error);
+                console.log("update user error response is ", error.response);
+            })
         },
         formatShortDate(date_string) {
             console.log("date string in profile body is ", date_string)
             if (!date_string) return;
             let date_split = date_string.split('-');
             let year = date_split[0];
-            let month_in_number = Number(date_split[1])
+            let month_in_number = Number(date_split[1]) - 1;
             console.log("date split 1 is ", date_split[1], " and month is ", this.months[Number(date_split[1])])
             return `${this.months[month_in_number]} ${year}`
         },
@@ -381,6 +396,10 @@ export default {
 </script>
 
 <style scoped>
+.profile-body-section {
+    margin-left: 0;
+    margin-right: 0;
+}
 .card {
     padding: 1% 1% 2% 3%;
 }
@@ -479,21 +498,28 @@ export default {
     color: #000 !important;
     width: 100%;
 }
-
+.education-actions {
+    margin-top: 1.5%;
+}
 .education .edit-education {
     cursor: pointer;
     color: #6D8AC7 !important;
     font-size: 1.3rem;
     font-weight: 600;
-    margin-right: 4%;
-    margin-top: 4%;
+    margin-right: 8%;
+    border: 1px solid #6D8AC7;
+    border-radius: 0.3rem;
+    padding: 0.2rem;
 }
+
 .education .delete-education {
     cursor: pointer;
     color: red !important;
     font-size: 1.3rem;
     font-weight: 600;
-    margin-top: 4%;
+    border: 1px solid red;
+    border-radius: 0.3rem;
+    padding: 0.2rem;
 }
 .form-check .form-check-label  {
     font-weight: 600;
@@ -557,6 +583,13 @@ export default {
 .error {
     color: red;
     font-size: 1.5rem;
+}
+@media screen and (max-width: 768px) {
+    .profile-body-section {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    
 }
 </style>
 

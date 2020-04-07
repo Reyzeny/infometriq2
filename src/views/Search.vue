@@ -47,7 +47,8 @@
                             <div v-else-if="pageStatus=='showResult'" class="search-results">
                                 <div v-for="searchResult in searchResultList" :key="searchResult" class="search-result">
                                     <div class="search-result__avatar">
-                                        <img src="../assets/site-main/assets/images/user-1.jpg" alt="">
+                                        <img v-if="searchResult.profile_image" :src="searchResult.profile_image" alt="">
+                                        <img v-else src="../assets/images/user_image_placeholder.svg" alt="">
                                     </div>
                                     <div class="search-result__info">
                                         <div class="search-result__title verified"><span><router-link :to="`/${searchResult.username}`">{{searchResult.firstname}} {{searchResult.lastname}}</router-link></span></div>

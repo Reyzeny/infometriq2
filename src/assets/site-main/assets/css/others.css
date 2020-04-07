@@ -1605,14 +1605,31 @@ button, .button {
   border-color: #E3E6E6 !important;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path fill='%23000000' d='M13.22 14.63a8 8 0 1 1 1.41-1.41l4.29 4.29a1 1 0 1 1-1.41 1.41l-4.29-4.29zm-.66-2.07a6 6 0 1 0-8.49-8.49 6 6 0 0 0 8.49 8.49z'></path></svg>") !important;
   background-repeat: no-repeat !important;
-  background-position: right 18px center !important;
+  background-position: left 18px center !important;
   background-size: 16px 16px !important;
-  padding-left: 2rem !important;
+  padding-left: 4rem !important;
   font-weight: 600 !important;
   color: #000 !important;
   height: 4.8rem  !important;
   font-size: 18px !important;
 }
+
+.list-group {
+  /* display: block !important; */
+  width: 100% !important;
+  color: black !important;
+  z-index: 100;
+}
+
+.list-group .list-group-item {
+  /* font-weight: 600 !important; */
+  cursor: pointer;
+}
+.list-group .list-group-item:hover {
+  background: #6D8AC7;
+  color: white;
+}
+
 
 /* line 47, ../sass/vendor/_bootstrap.scss */
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
