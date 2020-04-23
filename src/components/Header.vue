@@ -81,7 +81,7 @@
         <li class="nav__item nav__button"><a href=""><i class="icon icon-info nav__icon"></i>About</a></li>
         <li class="nav__item nav__button"><a href=""><i class="icon icon-award nav__icon"></i>Privacy policy</a></li>
         <li class="nav__item nav__button"><a href=""><i class="icon icon-hand-stop nav__icon"></i>Terms &  agreement</a></li>
-    </ul>
+      </ul>
     </vs-sidebar>
   </div>
 </template>

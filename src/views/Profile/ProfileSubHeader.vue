@@ -386,7 +386,7 @@ div .rating {
     font-size: 1.5rem;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
 
     .profile-url {
         margin-top: 5%;

@@ -245,7 +245,7 @@ section {
     margin: auto;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
     .profile-img img {
         width: 0 auto;
         height: auto;

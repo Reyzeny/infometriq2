@@ -584,7 +584,7 @@ export default {
     color: red;
     font-size: 1.5rem;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
     .profile-body-section {
         margin-left: 5%;
         margin-right: 5%;
