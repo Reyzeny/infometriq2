@@ -5,7 +5,12 @@
                 <h3 class="profile-header__name">{{profiledata.firstname}} {{profiledata.lastname}}</h3>
                 <div class="profile-header">
                     <div class="profile-header__avatar header-card">
-                        <img :src="profiledata.profile_image" alt="" class="profile-header__avatar__image">
+                        <div v-if="isMyProfile"  class="profile-header-change-image">
+                            <button class="btn btn-info change-image"><i class="icon icon-camera"></i> <span>Change</span> <input type="file" @change="imageSelected"></button>
+                        </div>
+                        <div class="profile-header-image-holder">
+                            <img :src="profiledata.profile_image" alt="" class="profile-header__avatar__image">
+                        </div>
                     </div>
                     <div class="profile-header__meta header-card">
                         <div>
@@ -100,6 +105,11 @@ export default {
         },
         user_image() {
             return this.profiledata && this.profiledata.profile_image ? this.profiledata.profile_image : ""
+        },
+        isMyProfile: function() {
+            let userData = JSON.parse(localStorage.getItem("user_data"));
+            return userData && (userData.username==this.profiledata.username);
+            // return true;
         }
     },
     data () {
@@ -164,6 +174,26 @@ export default {
 </script>
 
 <style scoped>
+.change-image {
+    float: left;
+}
+.change-image input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    cursor: pointer; 
+}
+.profile-header-image-holder {
+    height: 90%;
+}
+.profile-header-change-image{
+    height: 5%;
+}
 /*
 section {
     margin-top: 4%;

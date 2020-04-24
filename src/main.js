@@ -8,10 +8,12 @@ import './assets/js/vendors/typeahead/typeahead.min.js';
 import './assets/js/vendors/pushy/pushy.min.js';
 import 'vuesax/dist/vuesax.css';
 import Vuesax from 'vuesax';
+import VModal from 'vue-js-modal'
 
 Vue.use(Vuesax, {
   // options here
 })
+Vue.use(VModal)
 
 
 window.$ = window.jQuery = jQuery;

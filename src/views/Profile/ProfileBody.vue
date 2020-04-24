@@ -9,10 +9,14 @@
                                 <div class="card__inner">
                                     <div class="m-b-sm">
                                         <ul class="list-inline text-link">
+                                            <li v-if="isMyProfile"><a @click="showEditBiodata"><i class="icon icon-edit"></i>Edit Profile</a></li>
                                             <li><a href=""><i class="icon icon-briefcase"></i> Jobs</a></li>
                                             <li><a href=""><i class="icon icon-mail"></i> Contact</a></li>
                                             <li><a href=""><i class="icon icon-image"></i> Gallery</a></li>
                                         </ul>
+                                        <modal name="edit-biodata-modal" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true" @before-open="onBeforeBiodataOpen">
+                                            <biodata-edit :profiledata="profiledata"/>
+                                        </modal>
                                     </div>
                                     <div>
                                         <div style="display:flex;">
@@ -26,32 +30,42 @@
                             </div>
                             <div class="card">
                                 <div class="card__inner">
-                                    <h4 class="card__title">About</h4>
+                                    <h4 class="card__title">About<img v-if="isMyProfile" @click="showEditAbout" class="edit-icon" src="@/assets/images/edit_icon.png"/></h4>
                                     <div class="card__body m-t-md">
                                         <p v-html="profiledata.about"></p>
                                     </div>
                                     <div class="m-t-sm">
                                         <button class="btn btn-xs btn-info">See more</button>
                                     </div>
+                                    <modal name="edit-about-modal" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true">
+                                        <about-edit :profiledata="profiledata"/>
+                                    </modal>
                                 </div>
                             </div>
 
                             <div v-for="profileObject in profiledata.profile_headings" :key="profileObject.id" class="card">
                                 <div :id="getSectionId(profileObject.heading)" class="card__inner">
-                                    <h4 class="card__title">{{profileObject.heading}}</h4>
+                                    <h4 class="card__title">{{profileObject.heading}}<img v-if="isMyProfile" @click="showEditInformation(profileObject)" class="edit-icon" src="@/assets/images/edit_icon.png"/></h4>
                                     <div v-html="profileObject.content" class="m-t-sm">
                                     </div>
                                 </div>
+                                <modal :name="`edit-${profileObject.heading}-information-modal`" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true">
+                                    <information-edit :profileObject="profileObject" />
+                                </modal>
                             </div>
                             <div class="card">
                                 <div class="card__inner">
-                                    <h4 class="card__title">Education</h4>
+                                    <h4 class="card__title">Education<img v-if="isMyProfile" @click="showEditEducation(false)" class="edit-icon" src="@/assets/images/add.png"/></h4>
                                     <div v-for="educationObject in profiledata.educational_history" :key="educationObject.id" class="m-t-sm">
                                         <div class="info-item">
                                             <div class="info-item__title">{{educationObject.name}} <span class="date">• {{formatShortDate(educationObject.from)}} - {{formatShortDate(educationObject.to)==null ? "Date" : formatShortDate(educationObject.to)}}</span></div>
                                             <p>{{educationObject.certificate}}<span v-if="educationObject.grade">({{educationObject.grade}})</span></p>
+                                            <div class="education-actions" v-if="isMyProfile"><a class="edit-education" @click="showEditEducation(true, educationObject)">Edit</a> <a class="delete-education" @click="deleteEducationDetail(educationObject)">Delete</a></div>
                                         </div>
                                     </div>
+                                    <modal name="edit-education-modal" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true">
+                                        <education-edit :education_write_mode="education_write_mode" :educationObject="parsedEducationObject"/>
+                                    </modal>
                                 </div>
                             </div>
 
@@ -139,7 +153,10 @@
 </template>
 <script>
 import rating from '../../components/Rating.vue';
-import Editor from '@tinymce/tinymce-vue';
+import EditBiodata from './EditBiodata';
+import EditAbout from './EditAbout';
+import EditInformation from './EditInformation';
+import EditEducation from './EditEducation';
 import axios from './../../network'
 import { mapGetters, mapActions } from 'vuex';
 
@@ -147,35 +164,21 @@ export default {
     name: "ProfileBody",
     props: ['profiledata'],
     components: {
-        "editor": Editor,
-        rating
-    },
-    watch: {
-        currently_studying() {
-            console.log("currently studying is ", this.currently_studying);
-            this.to_date = '';
-        }
+        rating,
+        "biodata-edit": EditBiodata,
+        "about-edit": EditAbout,
+        "information-edit": EditInformation,
+        "education-edit": EditEducation,
     },
     computed: {
+        ...mapGetters("user", ["isLoggedIn"]),
         isMyProfile: function() {
             let userData = JSON.parse(localStorage.getItem("user_data"));
             return userData && (userData.username==this.profiledata.username);
-            // return true;
         },
-        
-        ...mapGetters("user", ["isLoggedIn"])
-
     },
     data() {
         return {
-            reviews: [
-                {
-                    name: "John Adelagba",
-                    date: "25th Jan 2018",
-                    review: "This a review",
-                    rating: 5
-                }
-            ],
             months: [
                 'January',
                 'February',
@@ -190,31 +193,8 @@ export default {
                 'November',
                 'December'
             ],
-            rating_number: 2,
-            showReadMoreArrow: true,
-            save_active: false,
-            about_content: this.profiledata.about,
-            profile_content: '',
-            institution: '',
-            from_date: '',
-            to_date: '',
-            additional_comment: '',
-            certificateOptionSelected: '',
-            certificateOptions: [
-                {text: "No Degree", value: "No Degree"},
-                {text: "Diploma", value: "Diploma"},
-                {text: "Bachelors Degree", value: "Bachelors Degree"},
-                {text: "Masters Degree", value: "Masters Degree"},
-            ],
-            currently_studying: false,
-
-            
-            institution_error:'',
-            certificate_error: '',
-            range_error:'',
-
             education_write_mode: '',
-            educationHistoryId: 0
+            parsedEducationObject: '',
         }
     },
     methods: {
@@ -226,47 +206,40 @@ export default {
             heading = heading.replace(' ', '_')
             return heading
         },
-        showAboutModal() {
-            this.$modal.show("edit-about-modal");
+        onBeforeBiodataOpen() {
+            // this.profile_page = 1;
         },
-        closeAboutModal() {
-            this.$modal.hide("edit-about-modal");
+        showEditBiodata() {
+            this.$modal.show('edit-biodata-modal');
         },
-        onBeforeAboutOpen() {
-
+        showEditAbout() {
+            this.$modal.show('edit-about-modal');
         },
-        onBeforeProfileOpen(profileObject) {
-            this.profile_content = profileObject.content;
+        showEditInformation(profileObject) {
+            this.$modal.show(`edit-${profileObject.heading}-information-modal`);
         },
-        showEditProfileModal(profileObject) {
-            this.$modal.show(`edit-${profileObject.heading}-modal`);
-        },
-        closeEditProfileModal(profileObject) {
-            this.$modal.hide(`edit-${profileObject.heading}-modal`);
-        },
-        showEducationModal(edit_mode, educationObject) {
+        showEditEducation(edit_mode, educationObject) {
             console.log(educationObject)
             this.education_write_mode = edit_mode ? 'edit' : 'new';
-            if (edit_mode) {
-                this.institution = educationObject.name;
-                this.certificateOptionSelected = educationObject.certificate
-                this.additional_comment = educationObject.extra_info;
-                this.currently_studying = educationObject.to === null
-                this.from_date = educationObject.from;
-                this.to_date = educationObject.to;
-                this.educationHistoryId = educationObject.id;
-            }else{
-                this.institution = '';
-                this.certificateOptionSelected = '';
-                this.additional_comment = '';
-                this.currently_studying = false;
-                this.educationHistoryId = 0;
-            }
+            this.parsedEducationObject = educationObject;
             this.$modal.show("edit-education-modal");
         },
-        closeEducationModal() {
-            this.$modal.hide("edit-education-modal");
+        deleteEducationDetail(educationObject) {
+            this.profiledata.educational_history = this.profiledata.educational_history.filter(currentEducationIteration => currentEducationIteration.id != educationObject.id)
+            axios.delete(`/delete-educational-history/${educationObject.id}`)
+                .then(response=>{
+                    console.log("response after deleting is ", response)
+                }).catch(error=>{
+                    console.log("error in deleting is ", error)
+                    console.log("error response in deleting is ", error.response)
+                })
         },
+
+
+
+        
+        
+        
         onSaveAbout() {
             if (!this.about_content) return;
             this.save_active=true;
@@ -312,85 +285,8 @@ export default {
                 console.log("update user error response is ", error.response);
             })
         },
-        onEducationDetailsValidated() {
-            if (!this.institution) {
-                this.showInstitutionError();
-                return false;
-            }
-            if (!this.certificateOptionSelected) {
-                this.showCertificateError();
-                return false;
-            }
-            if (!this.from_date || (!this.currently_studying && !this.to_date)) {
-                this.showRangeError();
-                return false;
-            }
-            return true;
-        },
-        onSaveEducation() {
-            this.resetEducationErrors();
-            if (!this.onEducationDetailsValidated()) return;
-            this.save_active=true;
-            this.education_write_mode == 'new' ? this.onSaveNewEducationHistory() : this.onUpdateEducationHistory(this.educationHistoryId);
-        },
-        onSaveNewEducationHistory() {
-            axios.post('/add-educational-history',{
-                institution: this.institution,
-                certificate: this.certificateOptionSelected,
-                from: this.from_date,
-                to: this.to_date,
-                extra_info: this.additional_comment
-            }).then(response=>{
-                console.log("adding educational history response is ", response);
-                this.changeRefreshState(true);
-                this.save_active=false;
-                this.closeEducationModal();
-            }).catch(error=>{
-                this.save_active=false;
-                console.log("adding educational history error is ", error);
-                console.log("adding educational history error response is ", error.response);
-            })
-        },
-        onUpdateEducationHistory(educationHistoryId) {
-            axios.post(`/update-educational-history/${educationHistoryId}`,{
-                institution: this.institution,
-                certificate: this.certificateOptionSelected,
-                from: this.from_date,
-                to: this.to_date,
-                extra_info: this.additional_comment
-            }).then(response=>{
-                console.log("adding educational history response is ", response);
-                this.changeRefreshState(true);
-                this.save_active=false;
-                this.closeEducationModal();
-            }).catch(error=>{
-                this.save_active=false;
-                console.log("adding educational history error is ", error);
-                console.log("adding educational history error response is ", error.response);
-            })
-        },
-        resetEducationErrors() {
-
-        },
-        showInstitutionError() {
-            this.institution_error = "Enter your institution name";
-        },
-        showCertificateError() {
-            this.certificate_error = "Select a degree you pursued or currently pursuing";
-        },
-        showRangeError() {
-            this.range_error = "Select a valid date"
-        },
-        deleteEducationDetail(educationObject) {
-            this.profiledata.educational_history = this.profiledata.educational_history.filter(currentEducationIteration => currentEducationIteration.id != educationObject.id)
-            axios.delete(`/delete-educational-history/${educationObject.id}`)
-                .then(response=>{
-                    console.log("response after deleting is ", response)
-                }).catch(error=>{
-                    console.log("error in deleting is ", error)
-                    console.log("error response in deleting is ", error.response)
-                })
-        },
+        
+        
         onSaveProfileContent(profileObject) {
             console.log("profile object ", profileObject)
             console.log("content to update is ", this.profile_content, " and header id is ", profileObject.id)
@@ -417,6 +313,41 @@ export default {
 div .rating {
     margin: 1%;
     cursor: pointer;
+}
+.edit-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+    float: right;
+}
+.education-actions {
+    margin-top: 1.5%;
+}
+.education-actions .edit-education {
+    cursor: pointer;
+    color: #6D8AC7 !important;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-right: 8%;
+    border: 1px solid #6D8AC7;
+    border-radius: 0.3rem;
+    padding: 0.2rem;
+}
+
+.education-actions .delete-education {
+    cursor: pointer;
+    color: red !important;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: 1px solid red;
+    border-radius: 0.3rem;
+    padding: 0.2rem;
+}
+.form-check .form-check-label  {
+    font-weight: 600;
+    margin-left: 1%;
+    font-size: 1.3rem;
+    color: #6D8AC7;
 }
 
 /*
