@@ -1,70 +1,76 @@
 <template>
-    <section>
+    <section class="profile-section profile-section--header bg-alt">
         <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card">
-                        <div v-if="imageUploadStatus=='upload_error'" class="error">Error uploading image</div>
-                        <div class="profile-img">
-                            <img v-if="profiledata.profile_image" :src="profiledata.profile_image" class="card-img-top" alt="Profile Image">
-                            <img v-else src="../../assets/images/user_image_placeholder.svg" class="card-img-top" alt="Profile Image">
-                            <span v-if="imageUploadStatus=='uploading'" class="spinner-image spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
-                            <span class="btn-file">
-                                <img class="edit-image" src="../../assets/images/photo-camera.svg"><input type="file" @change="imageSelected">
-                            </span>
-                        </div>
-                        <div class="card-body user-quote">
-                            <p>Quote:</p>
-                            <blockquote><span>&ldquo;</span>{{profiledata.quote}}<span>&rdquo;</span></blockquote>
-                        </div>
+            <div class="wrap">
+                <h3 class="profile-header__name">{{profiledata.firstname}} {{profiledata.lastname}}</h3>
+                <div class="profile-header">
+                    <div class="profile-header__avatar header-card">
+                        <img :src="profiledata.profile_image" alt="" class="profile-header__avatar__image">
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card profile-content">
-                        <h1 class="fullname">{{profiledata.firstname}} {{profiledata.lastname}}</h1>
-                        <p class="occupation">{{profiledata.occupation}}</p>
-                        <div v-for="(info, name) in information" :key="info" class="row">
-                            <div class="col-xs-4 data">
-                                {{name}}:
+                    <div class="profile-header__meta header-card">
+                        <div>
+                            <div v-for="(info, name) in information" :key="info" class="profile-header__row">
+                                <div class="profile-label">{{name}}:</div>
+                                <div class="profile-value">{{info}}</div>
+                                <div v-if="name=='Social'" class="profile-value">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a :href="profiledata.linkedin" target="_blank"><i class="icon icon-linkedin"></i></a>
+                                        </li>
+                                        <li>
+                                            <a :href="profiledata.twitter" target="_blank"><i class="icon icon-twitter"></i></a>
+                                        </li>
+                                        <li>
+                                            <a :href="profiledata.facebook" target="_blank"><i class="icon icon-facebook"></i></a>
+                                        </li>
+                                        <li>
+                                            <a :href="profiledata.instagram" target="_blank"><i class="icon icon-instagram"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="col-xs-8 data-value">
-                                {{info}}
+                            
+                            <div class="profile-header__row">
+                                <div class="profile-label">Rating:</div>
+                                <div class="profile-value">
+                                    <i class="icon icon-star-full1 text-brand"></i>
+                                    <i class="icon icon-star-full1 text-brand"></i>
+                                    <i class="icon icon-star-full1 text-brand"></i>
+                                    <i class="icon icon-star-full1 text-brand"></i>
+                                    <i class="icon icon-star-full1 text-brand"></i>
+                                </div>
+                            </div>
+                            <div class="profile-header__row">
+                                <div class="profile-value m-t-sm text-bold text-brand">{{formatWebsiteUrl}}</div>
                             </div>
                         </div>
-                        <div class="social-media">
-                            <a target="_blank" :href="profiledata.facebook"><img src="../../assets/images/facebook.png"/></a>
-                            <a target="_blank" :href="profiledata.instagram"><img src="../../assets/images/instagram.png"/></a>
-                            <a target="_blank" :href="profiledata.twitter"><img src="../../assets/images/twitter.png"/></a>
-                            <a target="_blank" :href="profiledata.youtube"><img src="../../assets/images/youtube.png"/></a>
-                            <a target="_blank" :href="profiledata.linkedin"><img src="../../assets/images/linkedin.png"/></a>
+                    </div>
+                    <div class="profile-header__content header-card">
+                        <ul class="list-unstyled content-links">
+                            <li><a href="#life"><i class="icon icon-user"></i> <span>Personal Life</span></a></li>
+                            <li><a href="#business"><i class="icon icon-briefcase"></i> <span>Business</span></a></li>
+                            <li><a href="#political"><i class="icon icon-users"></i> <span>Politics</span></a></li>
+                            <li><a href="#recognition"><i class="icon icon-award"></i> <span>Recognition</span></a></li>
+                            <li><a href="#references"><i class="icon icon-share"></i> <span>References</span></a></li>
+                            <li><a href="#history"><i class="icon icon-globe"></i> <span>History</span></a></li>
+                            <li><a href="#view_cv"><i class="icon icon-book"></i> <span>CV</span></a></li>
+                            <li><a href="#signature"><i class="icon icon-edit"></i> <span>Signature</span></a></li>
+                            <li><a href="#reviews"><i class="icon icon-chat-bubble-dots"></i> <span>Reviews</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="profile-header__badge header-card">
+                        <div style="height: 200px; padding-top: 30px;">
+                            <img src="@/assets/images/MetriQ-Verifiied.png" alt="">
+                        </div>
+                        <div>
+                            <button class="btn btn-info"><i class="icon icon-video"></i> <span>Video</span></button>
+                            <button class="btn btn-info"><i class="icon icon-play"></i> <span>Audio</span></button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="card content">
-                        <p class="content-header">Content</p>
-                        <a class="contents" href="#life"><span><img src="../../assets/images/user.png"/></span><span class="contents-title">{{life}}</span></a>
-                        <a class="contents" href="#business"><span><img src="../../assets/images/business.png"/></span><span class="contents-title">Business</span></a>
-                        <a class="contents" href="#political"><span><img src="../../assets/images/political.png"/></span><span class="contents-title">Political</span></a>
-                        <a class="contents" href="#recognition"><span><img src="../../assets/images/recognition.png"/></span><span class="contents-title">Recognition</span></a>
-                        <a class="contents" href="#references"><span><img src="../../assets/images/references.png"/></span><span class="contents-title">References</span></a>
-                        <a class="contents" href="#history"><span><img src="../../assets/images/history.png"/></span><span class="contents-title">History</span></a>
-                        <a class="contents" href="#view_cv"><span><img src="../../assets/images/viewcv.png"/></span><span class="contents-title">View CV</span></a>
-                        <a class="contents" href="#signature"><span><img src="../../assets/images/signature.png"/></span><span class="contents-title">Signature</span></a>
-                        <a class="contents" href="#reviews"><span><img src="../../assets/images/user.png"/></span><span class="contents-title">Reviews</span></a>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="card badge-container">
-                        <img class="text-center" src="../../assets/images/seal.png"/>
-                        <video class="text-center" src="../../assets/images/seal.png"/>
-                        
-                    </div>
-                </div>
-                <div class="col-md-1"></div>
             </div>
         </div>
-    </section>
+    </section>    
 </template>
 
 <script>
@@ -77,14 +83,17 @@ export default {
             return this.profiledata.type=='individual' ? 'Personal Life' : 'Company Profile';
         },
 
+        formatWebsiteUrl(){
+            return this.profiledata.website ? this.profiledata.website : `infometriq.com/${this.profiledata.username}`;
+        },
+
         information: function() {
-            let websiteUrl = this.profiledata.website ? this.profiledata.website : `infometriq.com/${this.profiledata.username}`;
+            
             return {
                 "Born": this.formatDate(this.profiledata.birthday),
                 "State": this.profiledata.state,
                 "Country": this.profiledata.country,
                 "Phone": this.profiledata.phone,
-                "Website": websiteUrl,
                 "Email": this.profiledata.email,
                 "Social":""
             }
@@ -155,6 +164,7 @@ export default {
 </script>
 
 <style scoped>
+/*
 section {
     margin-top: 4%;
 }
@@ -264,7 +274,7 @@ section {
 
 
 
-/* .btn-file input[type=file] {
+ .btn-file input[type=file] {
     position: absolute;
     top: 0;
     right: 0;
@@ -277,7 +287,7 @@ section {
     outline: none;   
     cursor: inherit;
     display: block;
-} */
+} 
 .btn-file {
     width: 3rem !important;
     height: 3rem !important;
@@ -314,7 +324,7 @@ section {
 .error {
     color: red;
     font-size: 1.3rem;
-}
+}*/
 </style>
 
 

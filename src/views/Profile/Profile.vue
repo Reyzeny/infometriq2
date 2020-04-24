@@ -6,9 +6,9 @@
             <span class="sr-only">Loading...</span>
         </div>
         <div v-else-if="usernameExists=='exists'">
-            <ProfileHeader :profiledata="dataObject"/>
-            <ProfileSubHeader :profiledata="dataObject"/>
-            <ProfileBody :profiledata="dataObject"/>
+            <IndividualProfile v-if="profileType==`individual`" :dataObject="dataObject"/>
+            <PropertyProfile v-else-if="profileType==`property`" :dataObject="dataObject"/>
+            <ProfileUnavailable v-else/>
         </div>
         <div v-else-if="usernameExists=='no'">
             <ProfileUnavailable/>
@@ -17,9 +17,8 @@
 </template>
 <script>
 import Header from '../../components/Header'
-import ProfileHeader from './ProfileHeader'
-import ProfileSubHeader from './ProfileSubHeader'
-import ProfileBody from './ProfileBody'
+import IndividualProfile from './IndividualProfile'
+import PropertyProfile from './PropertyProfile'
 import ProfileUnavailable from './ProfileUnavailable'
 import axios from './../../network'
 import {mapState, mapActions} from 'vuex'
@@ -27,9 +26,8 @@ import {mapState, mapActions} from 'vuex'
 export default {
     components:{
         Header,
-        ProfileHeader,
-        ProfileSubHeader,
-        ProfileBody,
+        IndividualProfile,
+        PropertyProfile,
         ProfileUnavailable
     },
     computed: {
@@ -40,6 +38,7 @@ export default {
         return{
             dataObject: '',
             usernameExists: '',
+            profileType: '',
         }
     },
     mounted() {
@@ -61,6 +60,7 @@ export default {
             axios.post(`/get-user-profile?username=${username}`)
                 .then(response => {
                     this.dataObject = response.data.data;
+                    this.profileType = this.dataObject.type.toLowerCase();
                     console.log(this.dataObject);
                     this.usernameExists = 'exists';
                 }).catch(error => {

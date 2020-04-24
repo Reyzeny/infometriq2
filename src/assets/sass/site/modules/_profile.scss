@@ -1,0 +1,302 @@
+.profile-section {
+    &--body {
+        padding-bottom: 5rem;
+    }
+}
+
+.profile-header {
+    padding: 2rem 0 4rem;
+    display: flex;
+
+    @include screen('sm') {
+        flex-direction: column;
+
+        > div {
+            flex-basis: 100% !important;
+        }
+    }
+
+    &__avatar {
+        flex-basis: 25%;
+        background-color: #fff;
+        // border: solid 1px #EEE;
+        padding: 20px;
+
+        &__image {
+            width: 100%;
+            height: 100%;
+            -o-object-fit: cover;
+                 object-fit: cover;
+            border-radius: 5px;
+        }
+
+        @include screen('sm') {
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            margin: 0 auto;
+
+        }
+    }
+
+    &__meta {
+        flex-basis: 30%;
+    }
+
+    &__content {
+        flex-basis: 25%;
+    }
+
+    &__badge {
+        flex-basis: 25%;
+        flex-direction: column;
+        text-align: center;
+
+        .inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        img {
+            width: 100%;
+            max-width: 120px;
+
+            @include screen('sm') {
+                max-width: 100px;
+            }
+        }
+    }
+
+    &__name {
+        font-size: $font-size--lg;
+        margin-top: 4rem;
+
+        @include screen('sm') {
+            display: block;
+            margin-bottom: 1.6rem;
+            text-align: center;
+        }
+    }
+
+    &__row {
+        display: flex;
+        border-bottom: solid 1px #EEE;
+        padding: .8rem 0 .8rem;
+
+        &:last-of-type {
+            border: 0;
+        }
+
+        @include screen('sm') {
+            padding: .5rem 0 .5rem;
+        }
+    }
+    .profile-label {
+        width: 120px;
+        font-weight: 600;
+    }
+    .profile-value {
+        opacity: .8;
+    }
+}
+
+.badge-col {
+    @include screen('sm') {
+        text-align: center;
+    }
+}
+
+.profile-view-label {
+    font-weight: 700;
+    text-align: right;
+    padding-right: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    @include screen('sm') {
+        text-align: center;
+        padding-right: 0;
+    }
+}
+.profile-view-value {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    opacity: .7;
+    line-height: 1.8;
+
+    @include screen('sm') {
+        text-align: center;
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+}
+
+.profile-nav {
+    border-bottom: solid 1px #DDD;
+    margin-top: 3rem;
+}
+
+.card-wrapper {
+    border: solid 1px #F0EFF7;
+    margin-top: 4rem;
+}
+
+.card {
+    &__inner {
+        padding: 3rem;
+    }
+
+    &__title {
+        margin-bottom: 0rem !important;
+        color: $brand-color;
+    }
+}
+
+.review {
+    padding: 10px 0 10px;
+    border-bottom: solid 1px $alt;
+
+    &__user {
+        font-weight: 700;
+
+        .date {
+            font-weight: 400;
+            opacity: .5;
+            margin-left: 5px;
+        }
+    }
+    p {
+        margin: 4px 0 10px;
+        opacity: .8;
+    }
+}
+.ref-links a {
+    display: block;
+    margin-bottom: 8px;
+    opacity: .8;
+}
+
+.card-items {
+    border-bottom: solid 1px $alt;
+
+    &__user {
+        font-weight: 700;
+
+        .date {
+            font-weight: 400;
+            opacity: .5;
+            margin-left: 5px;
+        }
+    }
+    p {
+        opacity: .8;
+    }
+}
+
+.info-item {
+    border-bottom: solid 1px $alt;
+    padding: 1rem 0 1rem;
+
+    &:last-of-type {
+        border: 0;
+    }
+
+    &__title {
+        font-weight: 700;
+
+        .date {
+            font-weight: 400;
+            opacity: .5;
+            margin-left: 5px;
+        }
+    }
+    p {
+        opacity: .8;
+    }
+}
+
+.header-card {
+    border: solid 1px #eee;
+    padding: 2rem;
+    background: #FFF;
+    // border: solid 10px #F5F5F5;
+
+    @include screen('sm') {
+        margin-top: 2rem;
+    }
+}
+
+.content-links {
+    > li {
+        display: block;
+    }
+    .icon {
+        color: #ccc;
+        margin-right: 1.2rem;
+        margin-top: .8rem;
+        font-size: 1.5rem;
+        display: inline-block;
+        float: left;
+    }
+    a {
+        color: #666;
+        line-height: 2.0;
+        display: block;
+    }
+}
+
+.play-btn {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.ratings {
+    display: flex;
+
+    .rating {
+        line-height: 1;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        min-width: 6rem;
+
+        .inner {
+            background: #eee;
+            text-align: center;
+        }
+
+        &__count {
+            font-size: 1.8rem;
+            line-height: 2;
+            font-weight: 700;
+            opacity: .5;
+        }
+        &__label {
+            background: #8AA1D2;
+            padding: .4rem .5rem .3rem;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.gallery-item {
+    border: solid 1px #ddd;
+    margin-top: 2rem;
+    padding: .8rem;
+    border-radius: 2px;
+    background: #f9f9f9;
+    height: 30rem;
+
+    img {
+        width: 100%;
+        height: 100%;
+        -o-object-fit: cover;
+             object-fit: cover;
+
+        border-radius: 2px;
+    }
+}

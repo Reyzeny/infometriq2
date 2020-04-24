@@ -4,30 +4,31 @@
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <div class="card ">
-                <div class="card-body">
-                    <p class="text-center">LOG IN TO YOUR ACCOUNT</p>
-                    <form role="form">
-                        <div class="form-group">
-                            <label for="email">Username/E-mail</label>
-                            <input v-model="username" type="email" class="form-control" name="email" placeholder="e.g john, jonny@hotmail.com"/>
-                            <div v-if="!username" class="error">{{username_error}}</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input v-model="password" type="password" class="form-control" name="password" placeholder="Enter your password"/>
-                            <div v-if="!password" class="error">{{password_error}}</div>
-                        </div>
-                        <div v-if="login_error" class="error text-center">{{login_error_message}}</div>
+                <div v-if="verified" class="text-center alert" role="alert">Your account has been verified<i class="icon icon-check"></i></div>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="text-center">LOG IN TO YOUR ACCOUNT</p>
+                        <form @submit.prevent="onLogin" role="form">
+                            <div class="form-group">
+                                <label for="email">Username/E-mail</label>
+                                <input v-model="username" type="email" class="form-control" name="email" placeholder="e.g john, jonny@hotmail.com"/>
+                                <div v-if="!username" class="error">{{username_error}}</div>
+                            </div>
                             
-                        <button v-if="login_active" class="btn-login" type="button" disabled>
-                            <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
-                            <span class="sr-only">Loading...</span>
-                        </button>
-                        <div @click="onLogin" v-else class="btn btn-login">LOG IN</div>
-                    </form>
-                </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input v-model="password" type="password" class="form-control" name="password" placeholder="Enter your password"/>
+                                <div v-if="!password" class="error">{{password_error}}</div>
+                            </div>
+                            <div v-if="login_error" class="error text-center">{{login_error_message}}</div>
+                                
+                            <button v-if="login_active" class="btn-login" type="button" disabled>
+                                <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </button>
+                            <button @click="onLogin" v-else class="btn btn-login" type="submit">LOG IN</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-3"></div>
@@ -47,12 +48,18 @@ export default {
             username: '',
             password: '',
             login_active: false,
+            verified: false,
 
             username_error: '',
             password_error: '',
             login_error: '',
             login_error_message: '',
         }
+    },
+    mounted() {
+        console.log(this.$route);
+        this.verified = this.$route.query.verified;
+        this.username = this.$route.query.email;
     },
     methods: {
         inputValidated() {
@@ -163,6 +170,11 @@ form input {
     margin: 0 auto;
     display: table;
     margin-bottom: 2rem;
+}
+.alert{
+    background: #5479b5;
+    color: white;
+    font-weight: 600;
 }
 .error {
     color: red;

@@ -45,10 +45,10 @@
                                 Sorry, there are no results for your search
                             </div>
                             <div v-else-if="pageStatus=='showResult'" class="search-results">
-                                <div v-for="searchResult in searchResultList" :key="searchResult" class="search-result">
+                                <div v-for="searchResult in searchResultList" :key="searchResult.username" class="search-result">
                                     <div class="search-result__avatar">
                                         <img v-if="searchResult.profile_image" :src="searchResult.profile_image" alt="">
-                                        <img v-else src="../assets/images/user_image_placeholder.svg" alt="">
+                                        <img v-else src="@/assets/images/user_image_placeholder.svg" alt="">
                                     </div>
                                     <div class="search-result__info">
                                         <div class="search-result__title verified"><span><router-link :to="`/${searchResult.username}`">{{searchResult.firstname}} {{searchResult.lastname}}</router-link></span></div>
@@ -109,6 +109,7 @@ export default {
             this.pageStatus='loading';
             axios.post(`/search-list?query=${query}`)
             .then(response => {
+                console.log("response iis ", response)
                 let searchResponse = response.data.data;
                 this.searchResultList = searchResponse.results;
                 this.pageStatus='showResult';
@@ -122,8 +123,8 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/site-main/assets/css/main.css';
-@import '../assets/site-main/assets/css/icons.css';
+/* @import '../assets/site-main/assets/css/main.css';
+@import '../assets/site-main/assets/css/icons.css'; */
 
 .loading {
     margin: 5%;

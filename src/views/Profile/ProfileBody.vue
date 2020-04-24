@@ -1,127 +1,144 @@
 <template>
-    <section class="container">
-        <div class="row">
-            <div class="col-md-10 profile-body-section">
-                <div class="card">
-                    <div class="edit-icon-container"><img v-if="isMyProfile" @click="showAboutModal" class="edit-icon" src="../../assets/images/edit_icon.png"/></div>
-                    <p v-if="showReadMoreArrow" class="about about-short" v-html="profiledata.about"></p>
-                    <p id="about-complete-content" class="about about-full collapse">{{profiledata.about}}</p>
-                    <br>
-                    <br>
-                    <p class="more" data-toggle="collapse" data-target="#about-complete-content" @click="showReadMoreArrow=!showReadMoreArrow"><span v-if="showReadMoreArrow">Read more</span><span v-if="!showReadMoreArrow">Read less</span> <img v-if="showReadMoreArrow" src="../../assets/images/double_arrow.png"/><img v-if="!showReadMoreArrow" src="../../assets/images/double_arrow_up.png"/></p>
-                    <modal name="edit-about-modal" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true" @before-open="onBeforeAboutOpen">
-                        <div class="edit-about-layout">
-                            <h1>Write a short bio</h1>
-                            <editor api-key="4tu7qtzsooh81aj24yusfadjzdu5lutuuncwqnyemjrd3sam" init="{plugins: 'wordcount'}" initial-value="" v-model="about_content"></editor>
-                            <div class="button-layout">
-                                <button v-if="!save_active" @click="onSaveAbout" class="save">Save</button>
-                                <button v-else class="save" disabled>
-                                    <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
-                                    <span class="sr-only">Loading...</span>
-                                </button>
-                                <button @click="closeAboutModal">Cancel</button>
-                            </div>
-                        </div>
-                    </modal>
-                </div>
-                <div class="card">
-                    <div class="profile-title"><h3>Education</h3><img v-if="isMyProfile" @click="showEducationModal(false)" class="edit-icon" src="../../assets/images/add.png"/></div>
-                    <div v-for="educationObject in profiledata.educational_history" :key="educationObject.id" class="education">
-                        <div class="school">{{educationObject.name}}</div>
-                        <div class="degree">{{educationObject.certificate}}<span v-if="educationObject.grade">({{educationObject.grade}})</span></div>
-                        <div v-if="educationObject.to" class="time">{{formatShortDate(educationObject.from)}} - {{formatShortDate(educationObject.to)}}</div>
-                        <div v-else class="time">{{formatShortDate(educationObject.from)}} - Currently studying here</div>
-                        <div class="education-actions" v-if="isMyProfile"><a class="edit-education" @click="showEducationModal(true, educationObject)">Edit</a> <a class="delete-education" @click="deleteEducationDetail(educationObject)">Delete</a></div>
-                    </div>
-                    <modal name="edit-education-modal" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true">
-                            <div class="edit-education-layout">
-                                <h1>Add Educational History</h1>
-                                <form>
+    <section class="profile-section profile-section--body">
+        <div class="container">
+            <div class="wrap">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card-wrapper">
+                            <div class="card">
+                                <div class="card__inner">
+                                    <div class="m-b-sm">
+                                        <ul class="list-inline text-link">
+                                            <li><a href=""><i class="icon icon-briefcase"></i> Jobs</a></li>
+                                            <li><a href=""><i class="icon icon-mail"></i> Contact</a></li>
+                                            <li><a href=""><i class="icon icon-image"></i> Gallery</a></li>
+                                        </ul>
+                                    </div>
                                     <div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Institution" v-model="institution">
-                                            <div v-if="!institution" class="error">{{institution_error}}</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <select class="form-control" v-model="certificateOptionSelected">
-                                                <option disabled value="">Select Certificate</option>
-                                                <option v-for="option in certificateOptions" v-bind:value="option.value" :key="option.value">
-                                                    {{ option.text }}
-                                                </option>
-                                            </select>
-                                            <div v-if="!certificateOptionSelected" class="error">{{certificate_error}}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="from_date">From</label>
-                                                    <input id="from_date" name="from_date" type="date" class="form-control" v-model="from_date"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div v-if="currently_studying==false" class="form-group">
-                                                    <label for="to_date">To</label>
-                                                    <input id="to_date" name="to_date" type="date" class="form-control" v-model="to_date"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" v-model="currently_studying" id="currently_studying">
-                                            <label class="form-check-label" for="currently_studying">
-                                                I'm currently studying here
-                                            </label>
-                                        </div>
-                                        <div v-if="!from_date || (!currently_studying && !to_date)" class="error">{{range_error}}</div>
-                                        <div class="form-group">
-                                            <textarea rows="8" class="education-additonal-comment" placeholder="Additional Comment" v-model="additional_comment"></textarea>
+                                        <div style="display:flex;">
+                                            <rating class="rating" :rating_number="4" description="Excellent"/>
+                                            <rating class="rating" :rating_number="3" description="Good"/>
+                                            <rating class="rating" :rating_number="2" description="Average"/>
+                                            <rating class="rating" :rating_number="1" description="Poor"/>
                                         </div>
                                     </div>
-                                </form>
-                                <div class="button-layout">
-                                    <button v-if="!save_active" @click="onSaveEducation" class="save">Save</button>
-                                    <button v-else class="save" disabled>
-                                        <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
-                                        <span class="sr-only">Loading...</span>
-                                    </button>
-                                    <button @click="closeEducationModal">Cancel</button>
                                 </div>
                             </div>
-                        </modal>
-                </div>
-                <div class="card">
-                    <div v-for="profileObject in profiledata.profile_headings" :key="profileObject.id" class="profile">
-                        <div :id="getSectionId(profileObject.heading)" class="profile-title"><h3>{{profileObject.heading}}</h3><img v-if="isMyProfile" @click="showEditProfileModal(profileObject)" class="edit-icon" src="../../assets/images/edit_icon.png"/></div>
-                        <div class="profile-content" v-html="profileObject.content"></div>
-                        <modal :name="`edit-${profileObject.heading}-modal`" :adaptive="true" :width="'80%'" :height="'auto'" :scrollable="true" @before-open="onBeforeProfileOpen(profileObject)">
-                            <div class="edit-about-layout">
-                                <h1>{{profileObject.heading}}</h1>
-                                <editor api-key="4tu7qtzsooh81aj24yusfadjzdu5lutuuncwqnyemjrd3sam" initial-value="" v-model="profile_content"></editor>
-                                <div class="button-layout">
-                                    <button v-if="!save_active" @click="onSaveProfileContent(profileObject)" class="save">Save</button>
-                                    <button v-else class="save" disabled>
-                                        <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
-                                        <span class="sr-only">Loading...</span>
-                                    </button>
-                                    <button @click="closeEditProfileModal(profileObject)">Cancel</button>
+                            <div class="card">
+                                <div class="card__inner">
+                                    <h4 class="card__title">About</h4>
+                                    <div class="card__body m-t-md">
+                                        <p v-html="profiledata.about"></p>
+                                    </div>
+                                    <div class="m-t-sm">
+                                        <button class="btn btn-xs btn-info">See more</button>
+                                    </div>
                                 </div>
                             </div>
-                        </modal>
+
+                            <div v-for="profileObject in profiledata.profile_headings" :key="profileObject.id" class="card">
+                                <div :id="getSectionId(profileObject.heading)" class="card__inner">
+                                    <h4 class="card__title">{{profileObject.heading}}</h4>
+                                    <div v-html="profileObject.content" class="m-t-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__inner">
+                                    <h4 class="card__title">Education</h4>
+                                    <div v-for="educationObject in profiledata.educational_history" :key="educationObject.id" class="m-t-sm">
+                                        <div class="info-item">
+                                            <div class="info-item__title">{{educationObject.name}} <span class="date">• {{formatShortDate(educationObject.from)}} - {{formatShortDate(educationObject.to)==null ? "Date" : formatShortDate(educationObject.to)}}</span></div>
+                                            <p>{{educationObject.certificate}}<span v-if="educationObject.grade">({{educationObject.grade}})</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="card">
+                                <div class="card__inner">
+                                    <h4 class="card__title">CV</h4>
+                                    <div class="m-t-md">
+                                        <a href="" class="btn btn-info"><i class="icon icon-bookmark"></i> View Sowemimo Abiodun's CV</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card-wrapper">
+                            <div class="card">
+                                <div class="card__inner">
+                                    <h4 class="card__title">Reviews</h4>
+                                    <div class="reviews m-t-sm">
+                                        <div class="review">
+                                            <div class="review__user">John Adelagba <span class="date">• 25th Jan 2018</span></div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam delectus recusandae quisquam, eum exercitationem dignissimos unde. Officia, autem. Sint, eaque?</p>
+                                            <div>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                            </div>
+                                        </div>
+                                        <div class="review">
+                                            <div class="review__user">John Adelagba <span class="date">• 25th Jan 2018</span></div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam delectus recusandae quisquam, eum exercitationem dignissimos unde. Officia, autem. Sint, eaque?</p>
+                                            <div>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                            </div>
+                                        </div>
+                                        <div class="review">
+                                            <div class="review__user">John Adelagba <span class="date">• 25th Jan 2018</span></div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam delectus recusandae quisquam, eum exercitationem dignissimos unde. Officia, autem. Sint, eaque?</p>
+                                            <div>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                            </div>
+                                        </div>
+                                        <div class="review">
+                                            <div class="review__user">John Adelagba <span class="date">• 25th Jan 2018</span></div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam delectus recusandae quisquam, eum exercitationem dignissimos unde. Officia, autem. Sint, eaque?</p>
+                                            <div>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                            </div>
+                                        </div>
+                                        <div class="review">
+                                            <div class="review__user">John Adelagba <span class="date">• 25th Jan 2018</span></div>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam delectus recusandae quisquam, eum exercitationem dignissimos unde. Officia, autem. Sint, eaque?</p>
+                                            <div>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                                <i class="icon icon-star-full1"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- <div class="card">
-                    <div class="review-title"><h3>Reviews</h3></div>
-                    <div class="profile-review" v-for="reviewInfo in reviews" :key="reviewInfo">
-                        <p><span class="reviewer-name">{{reviewInfo.name}}</span><span class="circle-dot"></span><span class="review-date">{{reviewInfo.date}}</span></p>
-                        <p class="review-detail">Abiodun is a greate national diplomat with greate enthusiasm Abiodun is a greate national diplomat with greate enthusiasm Abiodun is a greate national diplomat with greate enthusiasm Abiodun is a greate national diplomat with greate enthusiasm</p>
-                        <p><img class="rating-star" v-for="n in rating_number" :key="n" src="../../assets/images/star-blue.png"/><img class="rating-star" v-for="n in (5-rating_number)" :key="n" src="../../assets/images/star-blue.png"/></p>
-                    </div>
-                </div> -->
             </div>
-            <div class="col-md-2"></div>
         </div>
     </section>
 </template>
 <script>
+import rating from '../../components/Rating.vue';
 import Editor from '@tinymce/tinymce-vue';
 import axios from './../../network'
 import { mapGetters, mapActions } from 'vuex';
@@ -131,6 +148,7 @@ export default {
     props: ['profiledata'],
     components: {
         "editor": Editor,
+        rating
     },
     watch: {
         currently_studying() {
@@ -396,6 +414,13 @@ export default {
 </script>
 
 <style scoped>
+div .rating {
+    margin: 1%;
+    cursor: pointer;
+}
+
+/*
+
 .profile-body-section {
     margin-left: 0;
     margin-right: 0;
@@ -591,6 +616,7 @@ export default {
     }
     
 }
+*/
 </style>
 
 

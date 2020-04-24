@@ -5,13 +5,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App'
-}
-</script>
-
 <style>
-@import 'assets/site-main/assets/css/others.css';
-@import 'assets/site-main/assets/css/icons.css';
+@import './assets/css/bootstrap.css';
+@import './assets/css/main.css';
+@import './assets/css/icons.css';
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 </style>

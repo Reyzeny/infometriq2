@@ -1,7 +1,7 @@
 <template>
     <section class="section">
         <div class="rating-body">
-            <p class="text-center rating-number">{{number}}</p>
+            <p class="text-center rating-number">{{rating_number}}</p>
             <p class="text-center rating-description">{{description}}</p>
         </div>
     </section>
@@ -10,7 +10,7 @@
 export default {
     name: "rating",
     props:{
-        number: {
+        rating_number: {
             type: Number,
             required: true,
             default: 0

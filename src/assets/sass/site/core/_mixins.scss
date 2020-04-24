@@ -1,0 +1,35 @@
+$breakpoint-xs: 480px;
+
+$breakpoint-sm: 768px;
+$breakpoint-end-sm: 991px;
+
+$breakpoint-md: 992px;
+$breakpoint-end-md: 1199px;
+
+$breakpoint-lg: 1200px;
+
+@mixin screen($size, $type:max, $width:600) {
+    @if $size=='xs' {
+        @media screen and (max-width: $breakpoint-xs) {
+            @content;
+        }
+    }
+
+    @if $size=='sm' {
+        @media screen and (max-width: $breakpoint-end-sm) {
+            @content;
+        }
+    }
+
+    @if $size=='md' {
+        @media screen and (min-width: $breakpoint-md) and (max-width: $breakpoint-end-md) {
+            @content;
+        }
+    }
+
+    @if $size=='lg' {
+        @media screen and (min-width: $breakpoint-lg) {
+            @content;
+        }
+    }
+}

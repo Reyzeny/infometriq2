@@ -1,0 +1,48 @@
+/* Categories Section */
+.categories-list {
+    padding: 0px;
+
+    &__item {
+        position: relative;
+        margin-top: 3rem;
+        margin-bottom: 5rem;
+        background-color: rgba(59, 121, 201, .7);
+        /*background-color: #3B79C9;*/
+        /*background-color: #022164;*/
+        transition: all .15s ease-out;
+        overflow: hidden;
+        text-align: center;
+        border-radius: 4px;
+        height: 55px;
+        line-height: 58px;
+        /*box-shadow: 0 0px 10px #000;*/
+        color: #FFFFFF;
+        font-weight: 700;
+
+        &:hover {
+            transform: scale(1.03);
+        }
+
+        &__inner {
+            display: block;
+            padding-left: 2.2rem;
+            padding-right: 2.2rem;
+        }
+
+        figure i {
+            font-size: 25px;
+            line-height: 55px;
+            /*opacity: .8;*/
+            /*color: #93CCEC;*/
+            /*color: $primary-color;*/
+        }
+        .title {
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    }
+
+    &__button {
+        margin-top: $section-padding;
+    }
+}

@@ -14,7 +14,7 @@
                 <div class="card ">
                 <div class="card-body">
                     <p class="text-center title">CREATE AN ACCOUNT</p>
-                    <form role="form">
+                    <form role="form" @submit.prevent="onSignup">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input v-model="username" type="name" class="form-control" name="username" placeholder="e.g johndoe"/>
@@ -47,7 +47,7 @@
                             <span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
                             <span class="sr-only">Loading...</span>
                         </button>
-                        <div @click="onSignup" v-else class="btn btn-signup">SIGN UP</div>
+                        <button @click="onSignup" v-else class="btn btn-signup" type="submit">SIGN UP</button>
                         
                     </form>
                 </div>

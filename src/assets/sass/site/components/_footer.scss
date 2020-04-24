@@ -1,0 +1,103 @@
+.main-footer {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    background-color: #f1f1f1;
+    // background-color: #000;
+    vertical-align: middle;
+    // border-top: solid 1px #ddd;
+    // border-bottom: solid 1px #ddd;
+
+    @include screen('sm') {
+        text-align: center;
+    }
+
+    &--brand {
+        background: $brand-color;
+    }
+    &--primary {
+        background: $primary-color;
+    }
+    &--transparent {
+        background: transparent;
+    }
+    &--no-shadow {
+        box-shadow: none !important;
+        border-bottom: none !important;
+    }
+    &--has-border-bottom {
+        border-bottom: solid 1px #eeeeee7a;
+    }
+    &--has-box-shadow {
+        box-shadow: 0 3px 6px #EEE;
+    }
+    &__left {
+        float: left;
+        @include screen('sm') {
+            float: none;
+        }
+    }
+    &__right {
+        float: right;
+        @include screen('sm') {
+            float: none;
+        }
+    }
+
+    &__wrap {
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+
+    .nav--footer {
+        height: auto !important;
+        padding: 1rem 0 1rem;
+    }
+
+    .text-muted {
+        color: $footer-nav-color;
+    }
+
+    .nav__menu {
+        font-size: 1.3rem;
+
+        .nav__item {
+            margin: 0 !important;
+            line-height: 1.6;
+
+            a {
+                font-weight: 500;
+                color: $footer-nav-color;
+                padding: 0 !important;
+
+                span {
+                    position: relative;
+                    padding-right: 1rem;
+                    padding-left: 1rem;
+
+                    &::after {
+                        position: absolute;
+                        content: '';
+                        left: 100%;
+                        top: 0;
+                        display: block;
+                        width: 1px;
+                        height: 100%;
+                        background: #aaa;
+                    }
+                }
+            }
+
+            &:first-child {
+                a span {
+                    padding-left: 0;
+                }
+            }
+            &:last-child {
+                a span::after {
+                    display: none;
+                }
+            }
+        }
+    }
+}

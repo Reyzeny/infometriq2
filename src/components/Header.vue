@@ -1,74 +1,60 @@
 <template>
   <div class="head">
-      <header class="main-header visible-lg " >
-        <nav class="navbar navbar-expand-lg navbar-light bg-light transperent" v-bind:class="{ 'altbg': headType == 'true' }">
-            <div class="container-fluid main-header__wrap">
-                <router-link class="main-header__logo" to="/">
-                    <img src="../assets/site-main/assets/images/logo.png" alt="InfoMetriQ"
-                ></router-link >
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                    </ul>
-                    <div class="form-inline my-2 my-lg-0">
-                        <nav class="nav nav--header">
-                            <ul class="nav__menu">
-                                <li class="nav__item nav__item--has-dropdown">
-                                    <a href="">Company
-                                        <ul class="nav__dropdown">
-                                            <li class="nav__dropdown__item"><a href="">About</a></li>
-                                            <li class="nav__dropdown__item"><a href="">Team</a></li>
-                                            <li class="nav__dropdown__item"><a href="">Services</a></li>
-                                        </ul>
-                                    </a>
-                                </li>
-                                <li v-if="isLoggedIn" class="nav__item nav__item--has-dropdown">
+    <header class="main-header visible-lg">
+            <div class="main-header__wrap">
+                <div class="main-header__left">
+                    <router-link class="main-header__logo" to="/">
+                        <img src="@/assets/images/logo.png" alt="InfoMetriQ">
+                    </router-link>
+                </div>
+                <div class="main-header__right">
+                    <nav v-if="isLoggedIn" class="nav nav--header">
+                        <ul class="nav__menu">
+                            <!-- <li class="nav__item nav__button"><router-link to="/login"><i class="icon icon-user nav__icon"></i>Log in</router-link></li> -->
+                            <li class="nav__item nav__item--has-dropdown">
                                     <a href="">Account
                                         <ul class="nav__dropdown">
                                             <li class="nav__dropdown__item"><router-link :to="`/${getUsername}`">My Profile</router-link></li>
+                                            <li @click="logout" class="nav__dropdown__item"><a> Logout</a></li>
                                         </ul>
                                     </a>
                                 </li>
-                                <li v-if="!isLoggedIn" class="nav__item nav__button"><router-link class="login" to="/login"><i class="icon icon-user nav__icon"></i>Log In</router-link></li>
-                                <li v-if="!isLoggedIn" class="nav__item nav__button nav__button--brand"><router-link class="signup" to="/signup"><span>Get started</span></router-link></li>
-                                <li v-if="isLoggedIn" class="nav__item nav__button nav__button--brand"><a class="logout" @click="logout"><span>Logout</span></a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <header class="header-mobile hidden-lg"  v-bind:class="{ 'altbg': headType == 'true' }">
-        <div class="container">
-            <div class="wrap">
-                <div class="row">
-                    <div class="header-mobile__col col-xs-6">
-                        <h1 class="m-t-0 m-b-0">
-                            <router-link class="header-mobile__logo" to="/">
-                                <img src="../assets/site-main/assets/images/logo.png" alt="InfoMetriQ">
-                            </router-link>
-                        </h1>
-                    </div>
-                    <div class="header-mobile__col col-xs-6 text-right">
-                        <ul class="nav__menu">
-                            <li class="nav__item">
-                                <router-link v-if="!isLoggedIn" role="button" to="/login" class="header-mobile__menu-button text-bold">Login</router-link>
-                            </li>
-                            <li class="nav__item">
-                                <a role="button" class="header-mobile__menu-button menu-btn"  @click.stop="toggleSideBar">
-                                    <font-awesome-icon :icon="['fas', 'bars']" />
-                                </a>
-                                 <!-- <vs-button @click="active=!active">Open Sidebar</vs-button> -->
-                            </li>
                         </ul>
+                    </nav>
+                    <nav v-else class="nav nav--header">
+                        <ul class="nav__menu">
+                            <li class="nav__item nav__button"><router-link to="/login"><i class="icon icon-user nav__icon"></i>Log in</router-link></li>
+                            <li class="nav__item nav__button nav__button--brand"><router-link to="/signup" class=""><span>Get started</span></router-link></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <header class="header-mobile hidden-lg">
+            <div class="container">
+                <div class="wrap">
+                    <div class="row">
+                        <div class="header-mobile__col col-xs-6">
+                            <h1 class="m-t-0 m-b-0">
+                                <router-link class="header-mobile__logo" to="/">
+                                    <img src="@/assets/images/logo.png" alt="InfoMetriQ">
+                                </router-link>
+                            </h1>
+                        </div>
+                        <div class="header-mobile__col col-xs-6 text-right">
+                            <ul class="nav__menu">
+                                <li v-if="!isLoggedIn" class="nav__item">
+                                    <router-link role="button" class="header-mobile__menu-button text-bold" to="/login">Login</router-link>
+                                </li>
+                                <li class="nav__item">
+                                    <a role="button" class="header-mobile__menu-button menu-btn" @click.stop="toggleSideBar"><i class="icon icon-menu"></i></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
     <vs-sidebar  v-model="active">
       <ul class="nav__menu nav__menu--vertical">
         <li class="nav__item nav__item--header"><span>Menu</span></li>

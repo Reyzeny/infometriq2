@@ -1,0 +1,158 @@
+html {
+    font-size: 62.5%;
+    @include screen(sm) {
+        font-size: 58%;
+    }
+}
+
+body {
+    color: $basic-text-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: $primary-font-family;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+
+    overflow-x: hidden !important;
+    cursor: default;
+
+    @include screen(sm) {
+        /*font-size: $font-size--sm;*/
+    }
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-weight: 500;
+}
+
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.text-white {
+    color: #FFFFFF !important;
+}
+.text-success {
+    color: $text-success !important;
+}
+.text-danger {
+    color: $text-danger !important;
+}
+.text-black {
+    color: #000 !important;
+}
+.text-basic {
+    color: $basic-text-color !important;
+}
+.text-light {
+    opacity: .7;
+}
+.text-extra-light {
+    opacity: .5;
+}
+.text-normal {
+    font-weight: normal !important;
+}
+.text-primary {
+    color: $primary-color !important;
+}
+.text-brand {
+    color: $brand-color !important;
+}
+.text-orange {
+    color: #FF7E65;
+}
+.text-link {
+    color: $text-link;
+}
+.text-number {
+    font-family: 'Arial' !important;
+}
+.text-italic {
+    font-style: italic !important;
+}
+.text-bold {
+    font-weight: 600 !important;
+}
+.text-lg {
+    font-size: 2.4rem!important;
+}
+.text-sm {
+    font-size: 1.4rem!important;
+}
+.text-xs {
+    font-size: 1.2rem !important;
+}
+.text-online {
+    color: #29E880 !important;
+}
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+.text-lowercase {
+    text-transform: lowercase !important;
+}
+.cursor {
+    &--pointer {
+        cursor: pointer;
+    }
+}
+
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+li {
+    display: list-item;
+}
+i {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.wrap {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+hr {
+    border-width: 1px;
+}
+
+.borderless td, .borderless th {
+    border: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 20px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+.table-label {
+    width: 200px;
+    font-weight: 700;
+
+    @include screen('sm') {
+        width: 100px;
+    }
+}
+.table-value {
+    line-height: 1.6 !important;
+}
+.section-heading {
+    /*margin-top: 1rem !important;*/
+    margin-bottom: 2rem !important;
+    text-align: center;
+}

@@ -1,0 +1,41 @@
+.hero {
+    background-color: #FFF;
+    text-align: center;
+    padding: 60px 60px 60px;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    /*border-radius: 5px;*/
+    /*box-shadow: 0 0 0 10px #555;*/
+
+    &--brand {
+        background-color: #f8eeec;
+    }
+    &--orange {
+        /*background-color: #f4dbdc;*/
+        background-color: #ee55210f;
+    }
+    &--native {
+        background-color: #F5E7D6;
+    }
+    &--blue {
+        /*background-color: #D4EAF8;*/
+        background-color: #d4eaf86e;
+    }
+    &--yellow {
+        background-color: #FECC85;
+    }
+    &--green {
+        background-color: #e0f2f1;
+    }
+    &--light {
+        background-color: #F9F9F9;
+    }
+}
+.sub-hero {
+    background-color: #FCFCFC;
+    border-top: solid 1px #fff;
+    /*border-bottom: solid 1px #EEE;*/
+    padding: 12px 0 12px;
+    box-shadow: 0 3px 6px #f9f9f9;
+}
